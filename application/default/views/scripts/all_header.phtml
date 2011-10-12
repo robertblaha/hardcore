@@ -1,0 +1,87 @@
+<?php
+header('Content-type: text/html; charset=UTF-8');
+$_t = new Zend_Translate('csv', CESTA . '/preklad/mfpshop.cs.csv', 'cs');
+$_t->addTranslation(CESTA . '/preklad/mfpshop.sk.csv', 'sk');
+$_t->addTranslation(CESTA . '/preklad/mfpshop.en.csv', 'en');
+
+// Create a log instance
+$writer_preklad = new Zend_Log_Writer_Stream(CESTA . '/logy/preklad.log');
+$log_preklad = new Zend_Log($writer_preklad);
+
+// Attach it to the translation instance
+$_t->setOptions(array(
+	'log'             => $log_preklad,
+	'logUntranslated' => true));
+
+$_t->setLocale($_SESSION['jazyk']);
+$_SESSION['referer'] = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- <html xmlns="http://www.w3.org/1999/xhtml">-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="ImageToolBar" content="no" />
+<title>E-shop Naked Hard Core...</title>
+<meta name="description" content=""  />
+<meta name="keywords" content=""  />
+<meta name="copyright" content="Robert Blaha, rbc.cz"  />
+<meta name="author" content="Robert Blaha, rbc.cz" />
+<meta name="robots" content="all"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen, projection, tv" />
+<!-- link rel="stylesheet" type="text/css" href="/css/tisk.css" media="print" /-->
+<style type="text/css">
+</style>
+
+
+<!-- script pro otvirani odkazu do noveho okna, priradit kazdemu takovemu odkazu class="popup" -->
+<script type="text/javascript" src="/js/popup.js"></script>
+<script type="text/javascript" src="/js/dojo.js"></script>
+<script type="text/javascript" src="/js/cs_all_100822.js"></script>
+<script type="text/javascript" src="/js/jquery-1.6.2.js"></script>
+<script type="text/javascript" src="/js/jquery.onerror.js"></script>
+<script type="text/javascript">
+    $(document).jsErrorHandler();
+</script>
+<?php
+if (!isset($_SESSION['kosik_max_pol'])) {
+	$_SESSION['kosik_max_pol'] = 0;
+}
+?>
+<script type="text/javascript">
+ var ts = 'http://<?php echo $_SERVER['HTTP_HOST'];?>';
+ var kosik_preklad = [];
+ 	kosik_preklad['pridano'] = '<?= vp($_t->_('do kosiku pridano'))?>';
+ 	kosik_preklad['ks'] = '<?= $_t->_('ks')?>';
+ 	kosik_preklad['cena'] = '<?= vp($_t->_('cena'))?>';
+ 	kosik_preklad['s dph'] = '<?= $_t->_('vc DPH')?>';
+ 	kosik_preklad['bez dph'] = '<?= $_t->_('bez DPH')?>';
+ 	kosik_preklad['pol_1'] = '<?= $_t->_('pol_1')?>';
+ 	kosik_preklad['pol_2'] = '<?= $_t->_('pol_2')?>';
+ 	kosik_preklad['pol_5'] = '<?= $_t->_('pol_5')?>';
+ var kosik_max_pol = <?=$_SESSION['kosik_max_pol']?>;
+</script>
+<?php
+	if (trim($this->header_script) != '') {
+		echo "\n" . '<script type="text/javascript">' . "\n" . $this->header_script . "\n</script>\n";
+	}
+	if (isset($this->script_files) && sizeof($this->script_files) > 0) {
+		foreach($this->script_files as $scr) {
+			echo '<script type="text/javascript" src="' . $scr . '"></script>' . "\n";
+		}
+	}
+	if (isset($this->css_files) && sizeof($this->css_files) > 0) {
+		foreach($this->css_files as $scr) {
+			echo '<link rel="stylesheet" type="text/css" href="' . $scr . '" media="screen" />' . "\n";
+		}
+	}
+	if (isset($this->css_defs) && sizeof($this->css_defs) > 0) {
+		foreach($this->css_defs as $scr) {
+			echo '<style type="text/css">' . "\n" . $scr . "</style>\n";
+		}
+	}
+
+
+?>
+</head>
+

@@ -1,0 +1,75 @@
+<?php
+$menu_def = array (
+	'uvod' => array('txt' => vp($_t->_('uvod')), 'href' => '<a href="/">' . vp($_t->_('uvod')) . '</a>'),
+	'podminky' => array('txt' => vp($_t->_('podminky')), 'href' => '<a href="/web/texty/zobraz/idt/podminky">' . vp($_t->_('podminky')) . '</a>'),
+	'katalogy' => array('txt' => vp($_t->_('katalogy')), 'href' => '<a href="/web/texty/zobraz/idt/katalogy">' . vp($_t->_('katalogy')) . '</a>'),
+	'prodejny' => array('txt' => vp($_t->_('prodejny')), 'href' => '<a href="/web/texty/zobraz/idt/prodejny">' . vp($_t->_('prodejny')) . '</a>'),
+	'onas' => array('txt' => vp($_t->_('onas')), 'href' => '<a href="/web/texty/zobraz/idt/onas">' . vp($_t->_('onas')) . '</a>'),
+	'kontakt' => array('txt' => vp($_t->_('kontakt')), 'href' => '<a href="/web/texty/zobraz/idt/kontakt">' . vp($_t->_('kontakt')) . '</a>'),
+	'kariera' => array('txt' => vp($_t->_('kariera')), 'href' => '<a href="/web/texty/zobraz/idt/kariera">' . vp($_t->_('kariera')) . '</a>')
+);
+
+echo '<ul id="topmenu">' . "\n";
+
+foreach ($menu_def as $pol) {
+	echo '<li>';
+	if (1 == 0) {
+		echo '<span id="aktivni">';
+		echo $pol['txt'];
+		echo '</span">';
+	} else {
+		echo $pol['href'];
+	}
+	echo "</li>\n";
+}
+echo "</ul>\n";
+$kosik = kosikInfo();
+?>
+        
+        <div id="lista">
+			<a href="/obchod/kosik/ukaz">Nákupní košík</a>
+            <div id="kosik"><?php
+            	if ($kosik['polozky'] == -1) {
+            		echo vp($_t->_('prazdny kosik'));
+            	} else {
+            		echo vp($_t->_('v kosiku mate'));
+            		echo ' <strong><span id="kos-txt-pol">' . $kosik['polozky'] . '</span></strong> ';
+            		switch(sizeof($_SESSION['kosik'])) {
+            			case 1:
+		            		echo '<span id="kos-txt-pol-ozn">' . $_t->_('pol_1') . '</span>';
+            				break;
+            			case 2:
+            			case 3:
+            			case 4:
+		            		echo '<span id="kos-txt-pol-ozn">' . $_t->_('pol_2') . '</span>';
+            				break;
+            			default:
+		            		echo '<span id="kos-txt-pol-ozn">' . $_t->_('pol_5') . '</span>';
+            				break;
+            		}
+            		if (strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo') {
+            			echo ' ' . $_t->_('za') . ' <span id="kos-txt-cena">' . number_format($kosik['cena'], 2, ',', ' ') . '</span> ' . $_t->_('bez DPH');
+            		} else {
+            			echo ' ' . $_t->_('za') . ' <span id="kos-txt-cena">' . number_format($kosik['cena_dph'], 2, ',', ' ') . '</span> ' . $_t->_('vc DPH');
+            		} 
+            	}
+            ?>
+            </div>
+            <a href="/obchod/kosik/ukaz" id="otevrit"><?php echo vp($_t->_('otevrit kosik'));?></a>
+            <a href="/obchod/kosik/vysyp" id="vysypat"><?php echo vp($_t->_('vysypat kosik'));?></a>
+            <!--<ul id="jazyky">
+<?php
+	/*//$sez_jaz = array('cs' => 'cz', 'en' => 'en', 'sk' => 'sk');
+	$sez_jaz = array('cs' => 'cz', 'sk' => 'sk');
+	foreach($sez_jaz as $j => $k) {
+		echo '<li id="' . $k . '"';
+		if ($_SESSION['jazyk'] == $j) {
+			echo ' class="aktivni">' . strtoupper($k);
+		} else {
+			echo '><a href="/default/index/jazyk/jazyk/' . $j . '">' . strtoupper($k) . '</a>';
+		}
+		echo '</li>' . "\n";
+	}*/
+?>            
+        	</ul>-->
+        </div><!-- lista -->

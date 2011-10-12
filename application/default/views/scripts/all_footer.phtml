@@ -1,0 +1,39 @@
+    </div><!-- main --> 
+    <div class="cistic"></div> 
+	
+
+<div style="font-family:sans-serif;text-align:center;font-size:100%;color:white;background-color:gray;">Naked E-shop Hard Core by rbc.cz &amp; kedrixon &amp; Credio &copy; <span id="letopocet"><?php echo date('Y');?></span></div>
+<input type="hidden" id="makosi" value="0" />
+<div id="info-kosik">
+	<span id="info-kosik-text"></span>
+	<br/><div style="text-align:right;"><span id="info-kosik-zavri"><?=vp($_t->_('zavrit'))?></span></div>
+</div>
+    
+<?php if (THIS_SERVER == "http://localhost" || THIS_SERVER == "http://cshopcore" || (isset($_SESSION['uzivatel']['login']) && ($_SESSION['uzivatel']['login'] == 'robert.blaha' || $_SESSION['uzivatel']['login'] == 'robert_blaha'))):?>
+<div class="debug" id="debug" style="text-align:left;font-size:120%;display:none;">
+<pre>
+<?php
+echo "LOG\n";
+print_r($_SESSION['log']);
+echo "\n\nSERVER:\n";
+print_r($_SERVER);
+echo "\n\nSESSION(nove):\n";
+foreach($_SESSION as $k => $h) {
+    echo "[" . $k . ']' . ' => ';
+    if ($k != 'vracene_xml') {
+        print_r($h);
+    }
+    echo "\n";
+}
+echo "\n\nPOSLEDNI XML:\n";
+echo ukazXML($_SESSION['vracene_xml']);
+?>
+</pre>
+</div>
+<?php 
+$_SESSION['log'] = array();
+?>
+<?php endif;?>
+</body>
+</html>
+

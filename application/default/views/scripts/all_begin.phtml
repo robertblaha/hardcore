@@ -1,0 +1,39 @@
+
+<body>
+	<input type= "hidden" name="error-debug" id="error-debug" value=""/>
+	<div id="main">
+    	<div id="top">
+        	<h1>CShop Nonstyled Demo</h1>
+
+            <div id="prihlaseni">
+				<?php
+				// prihlasovaci dialog
+				if (isset($_SESSION['uzivatel']['login']) && trim($_SESSION['uzivatel']['login']) != '') {//uzivatel je prihlasen, zobrazit jmeno a odkaz na odhlaseni
+					echo '<div class="pb10"><span class="vetsi strong">' . vp($_t->_('prihlaseny uzivatel')) . ':</span></div>';
+					echo '<span class="strong">' . $_SESSION['uzivatel']['jmeno'] . '</span>';
+					echo '<br/><br/><span>' . $_SESSION['uzivatel']['firma_nazev'] . '</span>';
+					if ($_SESSION['uzivatel']['kredit_patro'] > 0) {
+						echo '<br/><span>PATRO kredity: ' . $_SESSION['uzivatel']['kredit_patro'] . '</span> <a href="' . PATRO_KREDIT_HTTP . '">' . vp($_t->_('cerpat kredit')) . '</a>';
+					}
+					echo '<br/><br/><!--<a class="strong" href="/obchod/pristup/ucet">' . vp($_t->_('muj ucet')) . '</a>-->';
+					echo '&nbsp;&nbsp;<a class="strong" href="/obchod/pristup/objednavky">' . vp($_t->_('objednavky')) . '</a>';
+					echo '&nbsp;&nbsp;<a class="strong" href="/obchod/pristup/editace">' . vp($_t->_('vas ucet')) . '</a>';
+					echo '&nbsp;&nbsp;<a class="strong" href="/obchod/pristup/logout">' . vp($_t->_('odhlasit')) . '</a>';
+				} else {?>
+				<div class="pb10"><span class="vetsi strong"><?php echo vp($_t->_('prihlaseni'));?></span> <span class="oddelovac">|</span> <a href="/obchod/pristup/registrace" class="vetsi strong"><?php echo vp($_t->_('registrace'));?></a></div>
+                <form action="/obchod/pristup/login" method="post">
+                    <fieldset>
+                        <input type="text" name="user" id="user" size="15"  value="<?php echo $_t->_('uzivatelske jmeno');?>" />
+                        <input type="password" name="password" id="password"  size="15"   value="<?php echo $_t->_('heslo');?>" />
+                        <input type="submit" name="login" id="login" value="<?php echo vp($_t->_('prihlasit se'));?>" />
+                        <!--<a href="" class="small"><?php echo $_t->_('zapomenute heslo');?></a>-->
+                        <input type="hidden" id="user_preklad" value="<?php echo $_t->_('uzivatelske jmeno');?>"/>
+                        <input type="hidden" id="password_preklad" value="<?php echo $_t->_('heslo');?>"/>
+                    </fieldset>
+                 </form>
+                 <?php } ?>
+	             <input type="hidden" id="hledej_preklad" value="<?php echo $_t->_('hledat');?>"/>
+	             <input type="hidden" id="tento_server" value="<?= THIS_SERVER?>"/>
+				<input type="hidden"  id="typ_firmy" value="<?= strtolower($_SESSION['uzivatel']['firma_typ'])?>"/>
+			</div><!-- prihlaseni -->
+    	</div><!-- top -->

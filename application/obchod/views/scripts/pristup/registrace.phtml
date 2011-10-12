@@ -1,0 +1,202 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$_SESSION['crumb-text'] = '';
+?>
+        
+           <div id="stred">
+															
+				<div class="cistic"></div>
+				<h1><?= vp($_t->_('registracni formular'))?></h1>
+				
+                <form id="registrace-formular" class="formular" action="/obchod/pristup/zpracujregistraci" method="post">
+                
+                <h2 class="legend"><?= vp($_t->_('prihlasovaci udaje'))?></h2>
+             	<fieldset>                    
+                	<label for="ujmeno" style="width:240px;"><?= vp($_t->_('prihlasovaci jmeno'))?>:*</label> <input type="text" size="50" class="middle" name="ujmeno" id="ujmeno" value=""/> <span id="ujmeno-hlaska" style="font-weight:bold; color:red;"></span>
+                    <div class="cistic"></div>
+                   <label for="heslo" style="width:240px;"><?= vp($_t->_('heslo'))?>:*</label> <input type="password" size="30" class="middle" name="heslo" id="heslo" value="" />
+                    <div class="cistic"></div>
+                    <label for="heslo1" style="width:240px;"><?= vp($_t->_('heslo pro kontrolu jeste jednou'))?>:*</label> <input type="password" size="30" class="middle" name="heslo1" id="heslo1" value=""/> <span id="heslo-hlaska" style="font-weight:bold; color:red;"></span>
+                   <div class="cistic"></div>
+                </fieldset>	
+                
+                <h2 class="legend"><?= vp($_t->_('udaje o zakaznikovi'))?></h2>
+             	<fieldset>                    
+                	<label for="prijmeni"><?= vp($_t->_('prijmeni'))?>:*</label> <input type="text" size="50" class="middle" name="prijmeni" id="prijmeni" value=""/>                    
+                	<label for="jmeno"><?= vp($_t->_('jmeno'))?>:*</label> <input type="text" size="50" class="middle" name="jmeno" id="jmeno" value=""/>                    
+                    <div class="cistic"></div>
+                   <label for="email"><?= vp($_t->_('email'))?>:*</label> <input type="text" size="30" class="middle" name="email" id="email" value="" />
+                    <label for="telefon"><?= vp($_t->_('telefon'))?>:*</label> <input type="text" size="30" class="short" name="telefon" id="telefon" value="" />
+                   <div class="cistic"></div>
+                </fieldset>	
+                
+                <h2 class="legend"><?= vp($_t->_('fakturacni adresa'))?></h2>
+                <fieldset>   
+                	<label for="firma"><?= vp($_t->_('firma'))?>:</label> <input type="text" size="50" class="middle" name="firma" id="firma" value="" />
+					<label for="ic" class="uzsi"> <?= vp($_t->_('IC'))?>:</label> <input type="text" size="30" class="short mr30" name="ic" id="ic" value="" />
+					<label for="dic" class="uzsi"><?= vp($_t->_('DIC'))?>:</label> <input type="text" size="30" class="short" name="dic" id="dic" value="" />
+					  <div class="cistic"></div>
+					<label for="ulice"><?= vp($_t->_('ulice'))?>:*</label> <input type="text" size="50" class="middle" name="ulice" id="ulice" value="" />
+                    <div class="cistic"></div>
+                   <label for="mesto"><?= vp($_t->_('mesto'))?>:*</label> <input type="text" size="50" class="middle" name="mesto" id="mesto" value="" />
+                   <label for="psc" class="uzsi"><?= vp($_t->_('psc'))?>:*</label> <input type="text" size="30" class="short mr30" name="psc" id="psc" value="" />
+                    <label for="stat" class="uzsi"><?= vp($_t->_('stat'))?>:*</label> 
+                     <select name="stat" id="stat">
+                     	<option><?= vp($_t->_('vyberte'))?></option>
+                        <option value="cz"><?= vp($_t->_('ceska republika'))?></option>
+                        <option value="sk"><?= vp($_t->_('slovenska republika'))?></option>
+                     </select> 
+                   <div class="cistic"></div>
+             	</fieldset>	
+                
+                <h2 class="legend"><?= vp($_t->_('dodaci adresa'))?>, <?= vp($_t->_('pokud je odlisna od fakturacni adresy'))?></h2>                
+                <fieldset class="mb0">   
+                	<input type="hidden" id="lisise" name="lisise" value="" />                 
+                	<label for="jmeno2"><?= vp($_t->_('jmeno'))?>:</label> <input type="text" size="50" class="middle" name="jmeno2" id="jmeno2" value="" />
+                    <label for="firma2" class="uzsi"><?= vp($_t->_('firma'))?>:</label> <input type="text" size="50" class="middle" name="firma2" id="firma2" value="" /> 
+                    <div class="cistic"></div>
+                    
+                    <label for="ulice2"><?= vp($_t->_('ulice'))?>:</label> <input type="text" size="50" class="middle" name="ulice2" id="ulice2" value="" />
+                     <label for="mesto2" class="uzsi"><?= vp($_t->_('mesto'))?>:</label> <input type="text" size="50" class="middle" name="mesto2" id="mesto2" value="" />                    
+                   <label for="psc2" class="uzsi"><?= vp($_t->_('psc'))?>:</label> <input type="text" size="30" class="short2" name="psc2" id="psc2" value="" />
+                    
+                   <div class="cistic"></div>
+             	</fieldset>	               
+                
+                <div class="small">*<?= vp($_t->_('poviny udaj'))?></div>
+             	
+            
+				<a id="ulozuzivatele" href="#" class="kpokladne"><?= vp($_t->_('registruj uzivatele'))?></a>
+	           	<div class="cistic"></div>
+
+			</form>
+                
+           	<div class="cistic"></div>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+        <input type="hidden" name="chyba-heslo" id="chyba-heslo" value="1"/>
+        <input type="hidden" name="chyba-ujmeno" id="chyba-ujmeno" value="1"/>
+<?php
+$pov = array(
+	'ujmeno' => $_t->_('ujmeno'),
+	'heslo' => $_t->_('heslo'),
+	'email' => $_t->_('email'),
+	'jmeno' => $_t->_('jmeno'),
+	'prijmeni' => $_t->_('prijmeni'),
+	'telefon' => $_t->_('telefon'),
+	'ulice' => $_t->_('ulice'),
+	'mesto' => $_t->_('mesto'),
+	'psc' => $_t->_('psc'),
+	'stat' => $_t->_('stat')
+);
+$dor = array(
+	'ulice2' => $_t->_('ulice doruceni'),
+	'mesto2' => $_t->_('mesto doruceni'),
+	'psc2' => $_t->_('psc doruceni')
+);
+//vyhodnoceni formulare
+?>
+<script type="text/javascript">
+function OverFormularRegistrace(e) {
+	Nepracuji();
+	var varovani = '<?=vp($_t->_('vyplneni nize uvedenych poli je povinne'));?>';
+	var chyba = false;
+	<?php
+		foreach($pov as $k => $h) {
+			echo "if (dojo.byId('$k').value == '') {chyba = true; varovani += '\\n- $h';}\n";
+		}
+	?>
+	if ((dojo.trim(dojo.byId('jmeno').value) != dojo.trim(dojo.byId('jmeno2').value) && dojo.trim(dojo.byId('jmeno2').value) != '') || (dojo.trim(dojo.byId('firma').value) != dojo.trim(dojo.byId('firma2').value) && dojo.trim(dojo.byId('firma2').value) != '')) {
+		<?php
+			foreach($dor as $k => $h) {
+				echo "if (dojo.byId('$k').value == '') {chyba = true; varovani += '\\n- $h';}\n";
+			}
+		?>
+	}
+	if (dojo.byId('chyba-heslo').value == '1') {
+		chyba= true;
+		varovani += '\n- kontrolni opis hesla nesouhlasi s heslem';
+	}
+	if (dojo.byId('chyba-ujmeno').value == '1') {
+		chyba= true;
+		varovani += '\n- toto uzivatelske jmeno nelze pouzit';
+	}
+	dojo.stopEvent(e);
+	if (chyba) {
+		alert(varovani);
+	} else { //je to v poradku, muze se odeslat formular
+		//alert('OK');
+		dojo.byId('registrace-formular').submit();
+	}
+}
+
+function OverHeslo() {
+	console.debug('Heslo: ' + dojo.byId('heslo').value);
+	console.debug('Heslo: ' + dojo.byId('heslo1').value);
+	if (dojo.byId('heslo').value != '' && dojo.byId('heslo1').value != '') {
+		if (dojo.byId('heslo').value != dojo.byId('heslo1').value) {
+			dojo.byId('chyba-heslo').value = '1';
+			dojo.byId('heslo-hlaska').innerHTML = '<?=vp($_t->_('kontrola hesla nesouhlasi'))?>';
+		} else {
+			dojo.byId('chyba-heslo').value = '0';
+			dojo.byId('heslo-hlaska').innerHTML = '';
+		}
+	}
+	console.debug('Chyba hesla: ' + dojo.byId('chyba-heslo').value);
+}
+
+function OverUzivatele(e) {
+	Pracuji();
+	var kat_id = e.target.value;
+	dojo.xhrGet({
+		url: "/admin/ajax/nacti/prikaz/overuzivatele/pn1/jmeno/ph1/" + dojo.byId('ujmeno').value,
+		handleAs: "json",
+		load: function(data,args){
+			console.debug('Vysledek nacteni: ' + data.pocet);
+			console.debug('Vysledek nacteni 1: ' + data.r.row.pocet);
+			if (data.r.row.pocet != '0') {
+				dojo.byId('chyba-ujmeno').value = '1';
+				dojo.byId('ujmeno-hlaska').innerHTML = '<?=vp($_t->_('uzivatel jiz existuje'))?>';
+			} else {
+				dojo.byId('chyba-ujmeno').value = '0';
+				dojo.byId('ujmeno-hlaska').innerHTML = '';
+			}
+			console.debug('Chyba uzivatele: ' + dojo.byId('chyba-ujmeno').value);
+			Nepracuji();
+		},
+		// if any error occurs, it goes here:
+		error: function(error,args){
+			console.warn("Chyba pri overovani existence uzivatele: ",error);
+			Nepracuji();
+		}
+	});
+}
+
+dojo.addOnLoad(function() {
+	if (dojo.byId('ulozuzivatele')) {
+		dojo.connect(dojo.byId('ulozuzivatele'), 'onclick', OverFormularRegistrace);
+	}
+	if (dojo.byId('heslo') && dojo.byId('heslo1')) {
+		dojo.connect(dojo.byId('heslo'), 'onchange', OverHeslo);
+		dojo.connect(dojo.byId('heslo1'), 'onchange', OverHeslo);
+	}
+	if (dojo.byId('ujmeno')) {
+		dojo.connect(dojo.byId('ujmeno'), 'onchange', OverUzivatele);
+	}
+});
+</script>
+
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

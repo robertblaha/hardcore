@@ -1,0 +1,1378 @@
+#info-kosik {
+	text-align: left;
+	background-color: #e7e7e7;
+	color: #162983;
+	position: fixed;
+	left: 500px;
+	top: 10px;
+	width: 400px;
+	height: 100px;
+	display: none;
+	border: 2px solid #162983;
+	padding: 8px;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+/*
+* {
+margin: 0;
+padding: 0;	
+border: 0;
+}
+
+body {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size: 75%;
+color: black;
+text-align: center;
+background: white url("../grafika/bg.jpg") no-repeat center top;
+}
+
+a {
+color: #162983; 
+text-decoration: underline;
+} 
+
+a:visited {
+color: black; 
+}
+
+a:hover, a:active, a:focus {
+color: #5da6dc; 
+}
+
+h1 {
+font-size: 150%;
+font-weight: normal;
+color: #162983;
+margin: 10px 0 15px;
+background: white;
+}
+
+h2 {
+color: #5da6dc; 
+font-size: 130%;
+font-weight: bold;
+margin: 20px 0 10px;
+padding-bottom: 10px;
+border-bottom: 1px solid #e7e7e7;
+}
+
+h3 {
+font-size: 120%;
+color: black; 
+font-weight: bold;
+margin: 20px 0 10px;
+}
+
+h4 {
+font-weight: bold;
+font-size: 100%;
+color: #162983;
+margin: 20px 0 10px;
+padding-bottom: 10px;
+border-bottom: 1px solid #e7e7e7;
+text-transform: uppercase;
+}
+
+h5 {
+font-size: 100%;
+font-weight: bold;
+color: #5da6dc;
+margin: 20px 0 10px;
+}
+
+h6 {
+font-size: 90%;
+font-weight: bold;
+color: black;
+margin: 20px 0 10px;
+text-transform: uppercase;
+}
+
+p {
+margin-bottom: 15px;
+line-height: 150%;
+}
+
+ul, ol {
+margin: 10px 0;
+line-height: 140%;
+}
+
+li {
+margin-left: 20px;
+list-style: disc;
+padding: 7px 0;
+}
+
+ol li {
+list-style: decimal;
+}
+
+.cistic {
+=height: 1px;
+=width: 1px;
+=font-size: 1px;
+=line-height: 1px;
+=margin: -1px -1px 0 0;
+clear: both;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+td, th {
+padding: 5px 10px;
+border: 1px solid #5da6dc;
+background: white;
+}
+
+th {
+font-size: 80%;
+font-weight: normal;
+color: white;
+background: #5da6dc;
+text-transform: uppercase;
+}
+
+td.center, th.center {
+text-align: center;
+}
+
+tr.odd td {
+background: #efefef;
+}
+
+td.mezera {
+border: 0;
+height: 2px;
+padding: 0;
+}
+
+tr.vetsi td {
+padding: 10px 15px;
+}
+
+address {
+font-style: normal;
+line-height: 150%;
+margin-bottom: 20px;
+}
+
+input, textarea, select {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size: 100%;
+background: white;
+color: black;
+padding: 3px;
+border: 1px solid #bebebe;
+}
+
+.blue {
+color: #5da6dc; 
+}
+
+.darkblue {
+color: #172983; 
+}
+
+.red {
+color: #cf0101; 
+}
+
+.right {
+float: right !important;
+}
+
+.left {
+float: left !important;
+}
+
+.alignleft {
+text-align: left;
+}
+
+img.right {
+border: 1px solid #d0d0d0;
+margin: 0 0 15px 15px;
+}
+
+img.left {
+border: 1px solid #d0d0d0;
+margin: 0 15px 15px 0;
+}
+
+.strong {
+font-weight: bold;
+}
+
+.small {
+font-size: 90%;
+}
+
+.vetsi {
+font-size: 120%;
+}
+
+.big {
+font-size: 150%;
+}
+
+.polovina {
+width: 48%;
+}
+
+.noborder {
+border: 0 !important;
+}
+
+.noborderleft {
+border-left: 0 !important;
+text-align: right;
+padding-right: 20px !important;
+}
+
+.noborderright {
+border-right: 0 !important;
+white-space: nowrap;
+}
+
+.mb0 {
+margin-bottom: 0 !important;
+}
+
+.mb5 {
+margin-bottom: 5px !important;
+}
+
+.mb10 {
+margin-bottom: 10px !important;
+}
+
+.mb30 {
+margin-bottom: 30px !important;
+}
+
+.mt0{
+margin-top: 0 !important;
+}
+
+.mt5 {
+margin-top: 5px !important;
+}
+
+.mt10 {
+margin-top: 10px !important;
+}
+
+.mt20 {
+margin-top: 20px !important;
+}
+
+.mt30 {
+margin-top: 30px !important;
+}
+
+.mr30 {
+margin-right: 30px !important;
+}
+
+.ml10 {
+margin-left: 10px !important;
+}
+
+.pt30 {
+padding-top: 30px !important;
+}
+
+.pt50 {
+padding-top: 50px !important;
+}
+
+.pb5 {
+padding-bottom: 5px !important;
+}
+
+.pb10 {
+padding-bottom: 10px !important;
+}
+
+.pb30 {
+padding-bottom: 30px !important;
+}
+
+.pr170 {
+padding-right: 170px !important;
+}
+
+.pl30 {
+padding-left: 30px !important;
+}
+
+.pt10 {
+padding-top: 10px !important;
+}
+
+
+
+#main {
+width: 982px;
+text-align: left;
+margin: 0 auto;
+}
+
+#top {
+width: 982px;
+height: 153px;
+float: left;
+position: relative;
+}
+                                                           
+#logo {
+width: 430px;
+height: 109px;
+font-size: 200%;
+color: #172983;
+text-transform: uppercase;
+overflow: hidden;
+position: absolute;
+top: 17px;
+left: 54px;
+}
+
+#logo a, #logo span {
+width: 430px;
+height: 109px;
+display: block;
+background: url("../grafika/logo.jpg");
+position: absolute;
+top: 0;
+left: 0;
+}
+
+
+#prihlaseni {
+width: 215px;
+height: 135px;
+padding: 17px 25px 0 0;
+float: right;
+}
+
+#user {
+width: 190px;
+height: 20px;
+background: url("../grafika/user.jpg") no-repeat center left; 
+padding: 5px 0 0 23px;
+margin-bottom: 6px;
+}
+
+#password {
+width: 190px;
+height: 20px;
+background: url("../grafika/password.jpg") no-repeat center left; 
+padding: 5px 0 0 23px;
+margin-bottom: 9px;
+}
+
+#login, #prihlasit{
+width: 103px;
+height: 23px;
+font-size: 90%;
+font-weight: bold;
+text-align: center;
+text-transform: uppercase;
+color: white;
+padding: 0;
+background: #192d7f url("../grafika/prihlasit.jpg") repeat-x;
+border: 1px solid #192d7f;
+float: right;
+}
+
+#prihlasit {
+margin-left: 20px;
+float: none;
+}
+
+
+ul#topmenu {
+width: 984px;
+height: 45px;
+margin: 0;
+padding: 0;
+background: #cdcdcd url("../grafika/topmenu.jpg") repeat-x bottom;
+float: left;
+}
+
+ul#topmenu li {
+height: 45px;
+margin: 0;
+padding: 0;
+list-style: none;
+background: url("../grafika/divider.jpg") no-repeat top right;
+display: inline-block;
+float: left;
+}
+
+ul#topmenu li.last {
+background: none; 
+}
+
+ul#topmenu a, ul#topmenu a:visited,
+ul#topmenu span#aktivni {
+height: 45px;
+line-height: 45px;
+padding: 0 45px;
+color: black;
+text-decoration: underline;
+display: inline-block;
+}
+
+ul#topmenu a:hover, ul#topmenu a:active, ul#topmenu a:focus,
+ul#topmenu span#aktivni {
+color: white;
+}
+
+ul#topmenu span#aktivni {
+color: #172982;
+font-weight: bold;
+background: url("../grafika/hover.jpg") no-repeat center bottome;
+text-decoration: none;
+}
+
+
+#lista {
+width: 959px;
+height: 44px;
+border-top: 2px solid #0497fc; 
+border-bottom: 2px solid #0497fc; 
+background: #5da6dc url("../grafika/lista.jpg") no-repeat right; 
+padding-left: 25px;
+float: left;
+}
+
+#lista img {
+float: left;
+}
+
+#kosik {
+height: 44px;
+line-height: 44px;
+padding:  0 22px 0 10px;
+display: inline-block;
+float: left;
+}
+
+a#otevrit, a#otevrit:visited, a#otevrit:hover, a#otevrit:focus, a#otevrit:active {
+width: 103px;
+height: 23px;
+line-height: 23px;
+font-weight: bold;
+font-size: 90%;
+color: white;
+text-align: center;
+background: #142a7e url("../grafika/prihlasit.jpg") repeat-x;
+border: 1px solid #142a7e;
+margin: 10px 9px 0 0;
+text-decoration: none;
+display: inline-block;
+float: left;
+}
+
+a#vysypat, a#vysypat:visited, a#vysypat:hover, a#vysypat:focus, a#vysypat:active {
+width: 103px;
+height: 23px;
+line-height: 23px;
+font-weight: bold;
+color: #474646;
+font-size: 90%;
+text-align: center;
+background: #a6a6a6 url("../grafika/vysypat.jpg") repeat-x;
+border: 1px solid #828181;
+margin: 10px 9px 0 0;
+text-decoration: none;
+display: inline-block;
+float: left;
+}
+
+
+
+ul#jazyky {
+width: 180px;
+height: 44px;
+margin: 0;
+padding: 0;
+float: right;
+}
+
+ul#jazyky li {
+width: 30px;
+height: 44px;
+line-height: 44px;
+margin: 0;
+padding: 0 0 0 30px;
+font-size: 90%;
+list-style: none;
+text-transform: uppercase;
+display: block;
+float: left;
+}
+
+ul#jazyky a, ul#jazyky a:visited {
+color: #172983;	
+}
+
+ul#jazyky a:hover, ul#jazyky a:active, ul#jazyky a:focus {
+color: white;
+}
+
+li#cz {
+background: url("../grafika/cz.png") no-repeat center left;
+}
+
+li#sk {
+background: url("../grafika/sk.png") no-repeat center left;
+}
+
+li#en {
+background: url("../grafika/en.png") no-repeat center left;
+}
+
+li#cz.aktivni {
+background: url("../grafika/cz2.png") no-repeat center left;
+}
+
+li#sk.aktivni {
+background: url("../grafika/sk2.png") no-repeat center left;
+}
+
+li#en.aktivni {
+background: url("../grafika/en2.png") no-repeat center left;
+}
+
+
+#obsah {
+width: 946px;
+padding: 0 25px 0 13px;
+background: url("../grafika/cara.jpg") repeat-y 221px 0;
+margin: 25px 0;
+float: left;
+}
+
+#left {
+width: 181px;
+float: left;
+}
+
+
+#left form {
+width: 188px;
+float: left;
+margin: 0 0 9px 0;
+}
+
+input#hledej {
+width: 142px;
+height: 21px;
+padding: 5px 0 0 5px;
+border: 1px solid #162983;
+border-right: 0;
+background: white;
+float: left;
+}
+
+input#go {
+width: 30px;
+height: 28px;
+padding: 0;
+border: 0;
+text-align: center;
+float: left;
+}
+
+
+#specialni {
+width: 181px;
+height: 31px;
+line-height: 31px;
+font-weight: bold;
+font-size: 120%;
+overflow: hidden;
+position: relative;
+margin-top: 30px;
+}
+
+#specialni span {
+width: 181px;
+height: 31px;
+background: url("../grafika/specialni-nabidka.jpg");
+position: absolute;
+top: 0;
+left: 0;
+}
+
+ul#special {
+width: 176px;
+padding: 0 0 0 5px;
+font-size: 120%;
+font-weight: bold;
+}
+
+ul#special li {
+width: 146px;
+height: 20px;
+padding: 5px 0 5px 30px;
+margin: 0;
+list-style: none;
+color: #5da6dc;
+}
+
+li#akce {
+background: url("../grafika/akce.jpg") no-repeat center left;
+}
+
+li#novinky {
+background: url("../grafika/novinky.jpg") no-repeat center left;
+}
+
+li#slevy {
+background: url("../grafika/slevy.jpg") no-repeat center left;
+}
+
+li#sezona {
+background: url("../grafika/sezona.jpg") no-repeat center left;
+}
+
+ul#special a, ul#special a:visited {
+color: #162983;
+}
+
+ul#special a:hover, ul#special a:focus, ul#special a:active {
+color: #5da6dc;
+}
+
+
+#produkty {
+width: 181px;
+height: 31px;
+line-height: 31px;
+font-weight: bold;
+font-size: 120%;
+overflow: hidden;
+position: relative;
+margin-top: 30px;
+}
+
+#produkty span {
+width: 181px;
+height: 31px;
+background: url("../grafika/produkty.jpg");
+position: absolute;
+top: 0;
+left: 0;
+}
+
+ul#menu {
+padding: 0 0 0 5px;
+}
+
+ul#menu li {
+margin: 0;
+padding: 7px 0 7px 25px;
+list-style: none;
+line-height: 140%;
+background: url("../grafika/menu.jpg") no-repeat 0 10px;
+font-size: 120%;
+}
+
+ul#menu a, ul#menu a:visited {
+color: #162983;
+}
+
+ul#menu a:hover, ul#menu a:focus, ul#menu a:active {
+color: #5da6dc;
+}
+
+ul#menu li.active {
+font-weight: bold;
+color: #5da6dc;
+}
+
+ul#menu ul {
+margin-bottom: 0;
+}
+
+ul#menu ul li {
+background: none;
+padding-left: 0;
+font-size: 90%;
+}
+
+ul#menu ul li a, ul#menu ul li a:visited {
+padding-left: 15px;
+font-weight: normal;
+background: url("../grafika/submenu.jpg") no-repeat 0 3px;
+color: black;
+}
+
+ul#menu ul li a:hover, ul#menu ul li a:focus, ul#menu ul li a:active {
+background: url("../grafika/submenu-hover.jpg") no-repeat 0 3px;
+color: #5da6dc;
+}
+
+ul#menu ul li.active {
+padding-left: 15px;
+background: url("../grafika/submenu-hover.jpg") no-repeat 0 12px;
+color: #172983;
+}
+
+
+#stred {
+width: 720px;
+min-height: 806px;
+_height: 806px;
+float: right;
+}
+
+a.vice, a.vice:visited {
+padding-left: 22px;
+color: #162983;
+background: url("../grafika/menu.jpg") no-repeat center left;
+float: right;
+}
+
+a.vice:hover, a.vice:focus, a.vice:active {
+color: #5da6dc;
+}
+
+
+#rozcestnik {
+margin: 0;
+padding: 0;
+}
+
+#rozcestnik li {
+width: 232px;
+height: 78px;
+margin: 0 12px 5px 0;
+text-transform: uppercase;
+padding: 0;
+list-style: none;
+display: block;
+float: left;
+}
+
+#rozcestnik li.last {
+margin-right: 0;
+}
+
+#rozcestnik a, #rozcestnik a:visited {
+width: 142px;
+height: 48px;
+padding: 30px 0 0 90px;
+text-align: center;
+display: block;
+text-decoration: none;
+font-weight: bold;
+color: white;
+}
+
+#rozcestnik a:hover, #rozcestnik a:focus, #rozcestnik a:active {
+color: white;
+}
+
+
+p#subkategorie {
+line-height: 180%;
+}
+
+p#subkategorie a, p#subkategorie a:visited,
+#ovladani a, #ovladani a:visited {
+color: #162983;
+font-weight: bold;
+}
+
+#ovladani a, #ovladani a:visited {
+font-weight: normal;
+}
+
+p#subkategorie a:hover, p#subkategorie a:focus, p#subkategorie a:active,
+#ovladani a:hover, #ovladani a:focus, #ovladani a:active {
+color: #5da6dc;
+}
+
+p#subkategorie .oddelovac {
+color: #b6b6b6;
+}
+
+
+#ovladani {
+height: 35px;
+line-height: 35px;
+=line-height: 100%;
+background: #e7e7e7;
+padding: 0;
+margin-top: 20px;
+font-size: 90%;
+}
+
+#ovladani fieldset {
+padding-left: 10px;
+display: inline-block;
+=padding-top: 8px;
+float: left;
+}
+
+#ovladani fieldset#vypis {
+padding-left: 10px;
+}
+
+input#vzestupne, input#sestupne  {
+border: 0;
+padding: 0;
+margin-left: 2px;
+vertical-align: text-bottom;
+}
+
+input#skladem, input#jenmfp {
+padding: 0;
+border: 0;
+vertical-align: text-bottom;
+margin-right: 2px;
+background: none;
+}
+
+#obrazkovy {
+height: 35px;
+=height: 17px;
+=line-height: 17px;
+padding: 0 5px 0 22px;
+background: url("../grafika/obrazkovy.jpg") no-repeat center left;
+display: inline-block;
+}
+
+#tabulkovy {
+height: 35px;
+=height: 17px;
+=line-height: 17px;
+padding-left: 22px;
+background: url("../grafika/tabulkovy.jpg") no-repeat center left;
+display: inline-block;
+}
+
+
+.cara {
+padding: 15px 0;
+background: url("../grafika/cara-vodorovna.jpg") repeat-x bottom;
+float: left;
+}
+
+.cara.bez {
+background: none;
+}
+
+.inner {
+background: url("../grafika/cary.jpg") repeat-y; 
+float: left;
+}
+
+.browse {
+width: 220px;
+padding: 10px 0;
+float: left;
+}
+
+.browse.dva {
+padding: 10px 30px;
+}
+
+.browse a {
+height: 35px;
+font-weight: bold;
+display: block;
+margin-bottom: 10px;
+}
+
+.browse .pic {
+width: 120px;
+height: 120px;
+position: relative;
+float: left;
+}
+
+.browse .pic span {
+width: 40px;
+height: 41px;
+position: absolute;
+top: 0;
+left: 0;
+}
+
+.browse .pic span.akce {
+background: url("../grafika/akce.png");
+}
+
+.browse .pic span.sleva {
+background: url("/grafika/sleva.png");
+}
+
+.browse .pic span.novinka {
+background: url("../grafika/novinka.png");
+}
+
+.browse .pic span.sezona {
+background: url("../grafika/sezona.png");
+}
+
+.browse .skladem {
+font-weight: bold;
+font-size: 90%;
+color: #5da6dc;
+padding: 5px 0 0 12px;
+background: url("../grafika/skladem.jpg") no-repeat 0 9px;
+}
+
+.browse .neni {
+font-weight: bold;
+font-size: 90%;
+color: #cf0101;
+padding: 5px 0 0 12px;
+background: url("../grafika/neni.jpg") no-repeat 0 9px;
+}
+
+.browse .cena {
+width: 90px;
+float: right;
+}
+
+.browse form {
+padding-top: 10px;
+}
+
+input.ks {
+width: 35px;
+height: 16px;
+text-align: center;
+padding: 3px 0 0 0;
+font-size: 90%;
+}
+
+.browse input.koupit {
+width: 87px;
+height: 33px;
+padding: 0;
+border: 0;
+margin-top: 5px;
+}
+
+.browse p {
+font-size: 90%;
+margin: 10px 0 0 0;
+}
+
+.strike {
+color: #cf0101;
+font-weight: bold;
+font-size: 120%;
+}
+
+
+#breadcrumb {
+font-size: 90%;
+margin: 0 0 15px 0;
+}
+
+#breadcrumb strong {
+font-weight: normal;
+color: #5da6dc;
+}
+
+#breadcrumb .oddelovac {
+color: #b6b6b6;
+}
+
+
+#strankovani {
+height: 35px;
+background: #e7e7e7;
+margin: 20px 0;
+padding: 0 20px;
+text-align: right;
+}
+
+#strankovani a, #strankovani a:visited {
+color: #162983;
+padding: 0 5px;
+}
+
+#strankovani a:hover, #strankovani a:focus, #strankovani a:active,
+#strankovani .big {
+color: #5da6dc;
+}
+
+#strankovani .big {
+padding: 0 5px;
+}
+
+#pocetstranka {
+padding-top: 5px;
+font-size: 90%;
+display: inline-block;
+float: left;
+}
+
+#stranky {
+display: inline-block;
+line-height: 35px;
+}
+
+
+.fotka img {
+float: right;
+}
+
+table#karta {
+width: 430px;
+float: left;
+}
+
+table#karta th {
+padding: 10px;
+background: #e7e7e7;
+border: 1px solid #ddd;
+font-size: 90%;
+color: black;
+font-weight: bold;
+text-transform: none;
+white-space: nowrap;
+}
+
+table#karta td {
+padding: 10px;
+border: 1px solid #ddd;
+}
+
+table#karta input.koupit {
+width: 87px;
+height: 33px;
+padding: 0;
+border: 0;
+margin-top: 5px;
+}
+
+p#garance {
+height: 32px;
+line-height: 32px;
+margin: 20px 0 30px;
+padding-left: 40px;
+font-size: 120%;
+font-weight: bold;
+background: url("../grafika/otaznik.jpg") no-repeat center left;
+}
+
+
+#cart span {
+height: 32px;
+line-height: 32px;
+padding: 0 25px;
+border: 1px solid #b4b3b3;
+background: #e2e2e2 url("../grafika/cart2.jpg") repeat-x top; 
+text-transfotm: uppercase;
+color: #9d9d9d;
+font-weight: bold;
+font-size: 120%;
+text-align: center;
+margin: 10px 3px 0 0;
+display: inline-block;
+float: left;
+}
+
+#cart h1 {
+height: 39px;
+line-height: 100%;
+color: white;
+font-size: 100%;
+margin: O;
+padding-right: 3px;
+background: url("../grafika/sipka.jpg") no-repeat center bottom;
+display: inline-block;
+float: left;
+}
+
+#cart h1 span {
+border: 1px solid #12277b;
+background: url("../grafika/cart.jpg") repeat-x top; 
+margin: 0;
+color: white;
+float: none;
+}
+
+table#shoppingcart {
+text-align: center;
+margin-bottom: 20px;
+float: left;
+}
+
+input.odstranit {
+border: 0;
+padding: 0;
+background: none;
+}
+
+tr.tmavy td {
+background: #cecece;
+}
+
+a.pokracovat {
+padding-left: 25px;
+font-weight: bold;
+background: url("../grafika/zpet.jpg") no-repeat center left;
+float: left;
+}
+
+a.kpokladne, a.kpokladne:visited, a.kpokladne:hover,
+input.kpokladne {
+width: 113px;
+height: 34px;
+padding-left: 20px;
+line-height: 34px;
+color: white;
+text-transform: uppercase;
+background: #122a7f url("../grafika/dale.jpg");
+border: 1px solid #12277b;
+text-decoration: none;
+font-weight: bold;
+float: right;
+display: inline-block;
+}
+
+
+.radio {
+text-align: center;
+width: 40px;
+}
+
+.radio input {
+background: none;
+border: none;
+padding: 0;
+}
+
+.hodnota {
+font-weight: bold;
+text-align: center;
+width: 200px;
+}
+
+
+.formular input {
+float: left;
+}
+
+#podminky {
+margin-bottom: 20px;
+line-height: 200%;
+}
+
+#podminky input {
+float: none;
+border: 0;
+background: none;
+}
+
+.formular .small {
+margin-bottom: 20px;
+padding-top: 5px;
+}
+
+.velky {
+font-size: 120%;
+font-weight: bold;
+}
+
+.formular fieldset {
+padding: 20px 20px 10px;
+=padding-bottom: 20px;
+background: white;
+border: 1px solid #5da6dc;
+margin: 0 0 20px 0;
+}
+
+.short {
+width: 90px;
+}
+
+.short2 {
+width: 90px;
+margin: 0;
+}
+
+.middle {
+width: 180px;
+margin-right: 20px;
+}
+
+.formular textarea {
+width: 560px;
+height: 80px;
+border: 1px solid #c0bebe;
+background: white;
+margin-bottom: 10px;
+}
+
+.formular label {
+width: 60px;
+padding-top: 2px;
+margin-bottom: 20px;
+float: left;
+}
+
+.formular label.delsi {
+width: 120px;
+}
+
+.formular label.sirsi {
+width: 90px;
+}
+
+.formular label.uzsi {
+width: 40px;
+}
+
+h2.legend {
+height: 28px;
+line-height: 28px;
+font-size: 100%;
+padding: 0 0 0 10px;
+margin: 20px 0 0 0;
+color: white;
+text-transform: uppercase;
+font-weight: bold;
+border-top: 1px solid #5da6dc;
+border-left: 1px solid #5da6dc;
+border-right: 1px solid #5da6dc;
+background: #5da6dc;
+}
+
+input.next {
+width: 134px;
+height: 34px;
+padding: 0 0 0 20px;
+color: white;
+text-align: left;
+text-transform: uppercase;
+background: #122a7f url("../grafika/dale.jpg");
+border: 1px solid #12277b;
+text-decoration: none;
+font-weight: bold;
+float: right;
+}
+
+table.doprava {
+margin-bottom: 20px;
+}
+
+table.doprava td {
+padding: 10px 15px;
+}
+
+
+
+#paticka-obal  {
+background: #162983;
+border-top: 5px solid #d0d0d0;
+text-align: center;
+}
+
+#paticka {
+width: 919px;
+height: 79px;
+padding: 0 15px 0 50px;
+margin: 0 auto;
+color: white;
+text-align: left;
+background: url("../grafika/paticka.jpg") no-repeat right;
+}
+
+#copyright {
+width: 450px;
+height: 79px;
+line-height: 79px;
+font-size: 90%;
+float: left;
+}
+
+#copyright a {
+color: #5da6dc;
+}
+
+#copyright a:visited {
+color: white;
+}
+
+#copyright a:hover, #copyright a:focus, #copyright a:active {
+color: #d0d0d0;
+}
+
+.oddelovac {
+padding: 0 7px;
+color: #5da6dc;
+}
+
+#buttony {
+width: 450px;
+text-align: right;
+float: right;
+}
+
+#buttony a, #buttony a:visited, #buttony span {
+height: 79px;
+line-height: 79px;
+padding: 0 35px;
+color: #5da6dc;
+display: inline-block;
+}
+
+#buttony a:hover, #buttony a:focus, #buttony a:active, #buttony span {
+color: white;
+}     
+
+#sitemap {
+background: url("../grafika/sitemap.png") no-repeat center left;
+}
+
+#print {
+background: url("../grafika/print.png") no-repeat center left;
+}
+
+#buttony span#sitemap {
+text-decoration: none;
+}     
+
+#ajax-loader-obr {
+	position: fixed;
+	left: 500px;
+	top: 300px;
+	display: none;
+	background-color: white;
+}
+
+#info-kosik {
+	text-align: left;
+	background-color: #e7e7e7;
+	color: #162983;
+	position: fixed;
+	left: 500px;
+	top: 10px;
+	width: 400px;
+	height: 100px;
+	display: none;
+	border: 2px solid #162983;
+	padding: 8px;
+	font-size: 110%;
+	font-weight: bold;
+}
+*/

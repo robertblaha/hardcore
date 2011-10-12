@@ -1,0 +1,87 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$_SESSION['crumb-text'] = '';
+?>
+        
+           <div id="stred">
+				<div id="cart">
+				</div><!-- cart -->
+				
+				<div class="cistic"></div>
+				
+              
+					<h2 class="mt0"><?= vp($_t->_('detail objednavky cislo '))?> <?=(string) $this->hl->poradi?></h2>
+					<table id="shoppingcart" cellpadding="0" cellspacing="0">
+						<tr>
+							<th class="alignleft"><?= vp($_t->_('nazev zbozi'))?></th>
+							<th><?= vp($_t->_('katalogove cislo'))?></th>
+							<th><?= vp($_t->_('mnozstvi'))?></th>
+							<th><?= vp($_t->_('cena bez dph'))?></th>
+							<th><?= vp($_t->_('cena s dph'))?></th>
+						</tr>
+					<?php
+						$index = 0;
+						$soucet = 0;
+						$soucet_dph = 0;
+						foreach($this->pol->row as $r) {
+							if ($index % 2 == 1) {
+								echo '<tr class="odd">';
+							} else {
+								echo '<tr>';
+							}
+							echo '<td class="alignleft">' . (string) $r->popis . '</td>';
+							echo '<td>' . (string) $r->produkt . '</td>';
+							echo '<td>' . (string) $r->mnozstvi . '</td>';
+							echo '<td>' . number_format((double) $r->cena_celkem, 2, ',', ' ') . '</td>';
+							echo '<td>' . number_format((double) $r->cena_celkem_dph, 2, ',', ' ') . '</td>';
+							echo "</tr>";
+							$soucet += $r['cena_radek'];
+							$soucet_dph += $r['cena_radek_dph'];
+							$index++;
+						}
+					?>
+						<tr>
+							<td class="mezera" colspan="5"></td>	
+						</tr>
+						<tr class="tmavy">
+							<td class="alignleft strong" colspan="4"><?= vp($_t->_('mnozstevni sleva'))?>:</td>
+							<td><?= number_format((double) $this->hl->objem_sleva_proc, 0, ',', ' ')?>&nbsp;%</td>
+						</tr>
+						<tr>
+							<td class="mezera" colspan="5"></td>	
+						</tr>
+						<tr class="vetsi">
+							<td class="alignleft strong" colspan="3">Celková cena po odečtení slevy:</td>
+							<td><?= number_format((double) $this->hl->cena_celkem, 2, ',', ' ')?></td>
+							<td class="strong darkblue"><?= number_format((double) $this->hl->cena_celkem_dph, '2', ',', ' ')?></td>							
+						</tr>	
+					</table>
+					<div class="cistic"></div>
+					
+                
+                <div class="cistic"></div>
+                  <h2><?= vp($_t->_('ostatni udaje'))?></h2>
+                  <p class="mb30">
+                      <span class="polozka"><?= vp($_t->_('doprava'))?>:</span> <strong><?= (string) $this->hl->doprava_popis?></strong>, cena: <?= number_format((double) $this->hl->cena_dopravy_dph, '2', ',', ' ')?><br />
+                      <span class="polozka"><?= vp($_t->_('platba'))?>:</span> <strong><?= (string) $this->hl->platba_popis?></strong>, cena: <?= number_format((double) $this->hl->cena_platby_dph, '2', ',', ' ')?><br />
+                  </p>                  
+
+                  	<a href="/obchod/pristup/objednavky" class="pokracovat"><?= vp($_t->_('zpet na seznam objednavek'))?></a>
+                
+           	<div class="cistic"></div>
+           	<?=$this->txt[$this->kod_txt]?>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

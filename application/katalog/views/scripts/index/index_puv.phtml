@@ -1,0 +1,89 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php 
+$_SESSION['crumb-text'] = ' > <a href="/katalog/index/index">Katalog</a>';
+
+
+$strom = zobrazStrom($this->strom, 0, '', '');
+//nejprve navigace
+$navigace = '';
+foreach($_SESSION['crumb'] as $r) {
+	$navigace .= ' > ' . $r;
+}
+echo '<br/>' . substr($_SESSION['crumb-text'], 3) . '<br/><br/>';
+
+echo $strom;
+
+echo '<div id="strankovani">';
+//echo 'Pocet stran: ' . $this->pager['pocet_stran'] . '</br>';
+if ($this->pager['prvni'] != '') {
+	echo '<a href="' . $this->pager['prvni'] . '" title="' . $_t->_('prvni'). ' ' . $_t->_('strana') . '">|&lt;</a>';
+} else {
+	echo '|&lt;';
+}
+echo ' ';
+if ($this->pager['predchozi'] != '') {
+	echo '<a href="' . $this->pager['predchozi'] . '" title="' . $_t->_('predchozi'). ' ' . $_t->_('strana') . '">&lt;</a>';
+} else {
+	echo '&lt;';
+}
+
+$i = $this->pager['strana'] - 2;
+if ($i > 1) {
+	echo ' ...';
+}
+while ($i <= $this->pager['strana'] + 2) {
+	if ($i >= 1 && $i <= $this->pager['pocet_stran']) {
+		if ($this->pager['strana'] == $i) {
+			echo ' ' . $i . '';
+		} else {
+			echo ' <a href="' . $this->pager['url'] . '/strana/' . $i . '" title="' . $i. '. ' . $_t->_('strana') . '">' . $i . '</a>';
+		}
+	}
+	$i++;
+}
+if ($i < $this->pager['pocet_stran']) {
+	echo ' ...';
+}
+
+echo ' ';
+if ($this->pager['nasledujici'] != '') {
+	echo '<a href="' . $this->pager['nasledujici'] . '" title="' . $_t->_('dalsi'). ' ' . $_t->_('strana') . '">&gt;</a>';
+} else {
+	echo '&gt;';
+}
+echo ' ';
+if ($this->pager['posledni'] != '') {
+	echo '<a href="' . $this->pager['posledni'] . '" title="' . $_t->_('posledni'). ' ' . $_t->_('strana') . '">&gt;|</a>';
+} else {
+	echo '&gt;|';
+}
+
+echo '<br/>' . vp($_t->_('pocet')) . ' ' . $_t->_('polozek') . ': ' . $this->pager['pocet_polozek'] . ', ' . vp($_t->_('pocet')) . ' ' . $_t->_('stran') . ': ' . $this->pager['pocet_stran'] . '...';
+
+echo '</div>';
+
+echo '<table>';
+echo '<tr>';
+echo '<td>' . $_t->_('nazev zbozi') . ' <a href="'. $this->razeni_url . '/strana/1/razeni/nazev/smer/asc">^</a>' . ' <a href="'. $this->razeni_url . '/strana/1/razeni/nazev/smer/desc">v</a>' . '</td>';
+echo '<td>' . $_t->_('cena') . ' <a href="'. $this->razeni_url . '/strana/1/razeni/cena/smer/asc">^</a>' . ' <a href="'. $this->razeni_url . '/strana/1/razeni/cena/smer/desc">v</a>' . '</td>';
+echo '<td>' . $_t->_('kod zbozi') . ' <a href="'. $this->razeni_url . '/strana/1/razeni/kod/smer/asc">^</a>' . ' <a href="'. $this->razeni_url . '/strana/1/razeni/kod/smer/desc">v</a>' . '</td>';
+echo '<td>&nbsp;</td>';
+echo '</tr>';
+
+$i = 1;
+foreach ($this->zbozi as $r) {
+	echo '<tr>';
+	echo '<td>' . $r['popis'] . '</td>';
+	echo '<td>' . number_format($r['cena'], 2, '.', ' ') . '</td>';
+	echo '<td>' . $r['produkt'] . '</td>';
+	echo '<td><a href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/bal/1/mjvbal/1/cenamj/' . number_format($r['cena'], 2, '_', '') . '">' . vp($_t->_('koupit')) . '</a>';
+	echo '</tr>';
+	$i++;
+}
+echo '</table>';
+
+?>
+

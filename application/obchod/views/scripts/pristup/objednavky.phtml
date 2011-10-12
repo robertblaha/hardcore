@@ -1,0 +1,40 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+
+            <div id="stred">
+            	<h1><?= vp($_t->_('prehled objednavek'))?></h1>
+					<table class="shoppingcart" cellpadding="0" cellspacing="0">
+					<tr>
+						<th><?= $_t->_('id')?></th>
+						<th><?= $_t->_('datum')?></th>
+						<th><?= $_t->_('cena')?></th>
+						<th>&nbsp;</th>
+					</tr>
+					<?php
+					foreach($this->objednavky as $r) {
+						echo '<tr>';
+						echo '<td>' . $r['poradi'] . '</td>';
+						echo '<td>' . $r['datum'] . '</td>';
+						echo '<td>' . $r['cena'] . '</td>';
+						echo '<td><a href="/obchod/pristup/zobrazobj/poradi/' . $r['poradi'] . '">' . $_t->_('zobraz') . '</td>';
+						echo '</tr>';
+					}
+					?>
+					</table>             	
+	            <div class="cistic"></div>
+           	</div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+            
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

@@ -1,0 +1,33 @@
+<?php
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+header('Content-type: text/xml; charset=utf-8');
+echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+echo '<SHOP>' . "\n";
+
+foreach($this->data->n->row as $r) {
+    echo "<SHOPITEM>\n";
+    echo "<ID>" . str_replace('&', 'a',trim((string) $r->produkt)) . "</ID>\n";
+    echo "<PRODUCT>" . str_replace('&', 'a',trim((string) $r->popis)) . "</PRODUCT>\n";
+    echo "<DESCRIPTION>" . str_replace('&', 'a',trim((string) $r->xtext)) . "</DESCRIPTION>\n";
+    echo "<IMGURL>http://www.mfp.cz/prod_obr/" . trim((string) $r->produkt) . ".jpg</IMGURL>\n";
+    echo "<VAT>" . number_format((double) trim((string) $r->sdph), 0, '.', '') . "</VAT>\n";
+    echo "<PRICE_BUY_VAT>" . number_format(Round(((double) trim((string) $r->cena) - ((double) trim((string) $r->cena) * ((double) trim((string) $r->sleva)/100))) * (1 + (double) trim((string) $r->sdph)/100), 2), 2, '.', '') . "</PRICE_BUY_VAT>\n";
+    echo "<MJ>Ks</MJ>\n";
+    echo "<ITEM_TYPE>" . trim((string) $r->akce) . "</ITEM_TYPE>\n";
+    echo "<MENA>Kč</MENA>\n";
+    echo "<URL>http://www.mfp.cz/katalog/detail/ukaz/kc/" . trim((string) $r->produkt) . "</URL>\n";
+    echo "<CATEGORYTEXT>" . trim((string) $r->kat) . "</CATEGORYTEXT>\n";
+    echo "<CATEGORYID>" . trim((string) $r->id_kat) . "</CATEGORYID>\n";
+    echo "<EAN>" . trim((string) $r->EAN) . "</EAN>\n";
+    echo "<KS_BAL>" . trim((string) $r->min_mnozstvi) . "</KS_BAL>\n";
+    echo "<SKLADEM>" . number_format(trim((string) $r->skladem), 0, '.', '') . "</SKLADEM>\n";
+    echo "<AKTIVITA>" . number_format(trim((string) $r->aktivita), 0, '.', '') . "</AKTIVITA>\n";
+    echo "</SHOPITEM>\n";
+}
+echo '</SHOP>' . "\n";
+
+
+// zatim 3/4 hodiny

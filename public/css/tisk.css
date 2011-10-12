@@ -1,0 +1,50 @@
+body {
+font-family: "Trebuchet MS", "Geneva CE", lucida, sans-serif; 
+color: black;
+font-size: 10pt;
+}
+
+#top, #topmenu, .vice, #paticka, #left, .koupit, #lista, .browse form {
+display: none;
+}
+
+div {
+background: none;
+}
+
+a, a:link {
+color: black;
+}
+
+img {
+border: none;
+}
+
+#stred  {
+color: black;
+width: auto; 
+padding: 0;
+margin: 0;
+}
+
+h1 {
+font-size: 14pt;
+font-weight: bold;
+}
+
+h2 {
+font-size: 13pt;
+font-weight: bold;
+}
+
+h3 {
+font-size: 11pt;
+font-weight: bold;
+}
+
+h4 {
+font-size: 10pt;
+font-weight: bold;
+}
+
+/******* KONEC CSS TISK *******/

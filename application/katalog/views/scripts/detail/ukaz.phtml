@@ -1,0 +1,441 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$zakl_cena = (double) $this->zbozi['cena'];
+$zakl_cena_s_dph = Round((double) $zakl_cena * (1 + ((double) $this->zbozi['sdph']/100)), 2);
+$cena = Round($zakl_cena - ((double) $zakl_cena * ((double) $this->zbozi['sleva']/100)), 2);
+$cena_s_dph = Round((double) $cena * (1 + ((double) $this->zbozi['sdph']/100)), 2);
+?>
+            <div id="stred">
+                <p id="breadcrumb"><?= getCrumb('Úvod');?></p>
+            	<h1><?= $this->zbozi['popis'];?></h1>
+                	<?php
+                		if (is_file(CESTA . '/public/' . '/prod_obr/' . trim($this->zbozi['produkt']) . '.jpg')) {
+               				$soubor = "/prod_obr/" . trim($this->zbozi['produkt']) . ".jpg";
+                			$rozm = getimagesize(CESTA . '/public/' . '/prod_obr/' . trim($this->zbozi['produkt']) . '.jpg');
+                			$sirka = $rozm[0];
+                			$vyska = $rozm[1];
+                			if ((integer) $sirka < 270 && (integer) $vyska < 270) {//nebude se upravovat
+                				$width = $sirka;
+                				$height = $vyska;
+                			} else {//je treba upravit
+	                			if ((integer) $sirka > (integer) $vyska) {
+	                				$width = "270";
+	                				$height = number_format((string) round(($vyska/($sirka/270)), 0) , 0, '', ''); 
+	                			} else {
+	                				$height = "270";
+	                				$width = number_format((string) round(($vyska/($vyska/270)), 0) , 0, '', ''); 
+	                			}
+                			}
+                		} else {// obrazek neexistuje
+                			$soubor = "/grafika/spacer.gif";
+            				$width = "270";
+            				$height = "270";
+                		}
+                	?>
+                	<a href="<?=$soubor?>" class="fotka" hideOnOverlayClick="true"><img src="<?=$soubor?>" alt="" title="" width="<?=$width?>" height="<?=$height?>" /></a>
+                
+                    <table id="karta" cellpadding="0" cellspacing="0">
+                    	<?php if (strtolower(substr(trim($this->zbozi['dodavatel']), 0, 3)) == 'mfp'):?>
+                        <tr>
+                            <th><?= vp($_t->_('vyrobce'))?>:</th>
+                            <td colspan="2"><?= trim($this->zbozi['dodavatel']);?></td>
+                        </tr>
+						<?php endif?>
+                    	<tr>
+	                    	<th><?= vp($_t->_('katalogove cislo'))?>:</th>
+    	               		<td colspan="2"><?= trim($this->zbozi['kc']);?></td>
+        	            </tr>
+	                   	<?php
+	                   		$carovy_kod = trim($this->zbozi['carovy_kod_vlastni']);
+	                   		if ($carovy_kod == '') {
+	                   			$carovy_kod = trim($this->zbozi['carovy_kod']);
+	                   		}?>
+	                   	<?php if (trim($carovy_kod) != ''):?>
+            	        <tr>
+                	    	<th><?= vp($_t->_('carovy kod'));?>:</th>
+                   			<td colspan="2"><?= trim($carovy_kod);?></td>
+                    	</tr>
+                    	<?php endif?>
+	                   	<?php if (trim($this->zbozi['text']) != ''):?>
+	                    <tr>
+	                    	<th><?= vp($_t->_('popis zbozi'))?>:</th>
+                   			<td colspan="2"><?= trim($this->zbozi['text']);?></td>
+	                    </tr>
+                    	<?php endif?>
+	                   	<?php if ($this->zbozi['nasobky'] != 0 && $this->zbozi['min_mnozstvi'] != 1):?>
+	                    <tr>
+	                    	<th><?= vp($_t->_('expedicni baleni'))?>:</th>
+                   			<td colspan="2"><?= trim($this->zbozi['min_mnozstvi']);?> <?=($_t->_('ks'))?></td>
+	                    </tr>
+                    	<?php endif?>
+	                    <tr>
+    	                	<th><?= vp($_t->_('dostupnost'))?>:</th>
+	                    	<?php if ((int) $this->zbozi['skladem'] > 0) {
+	                    		echo '<td colspan="2">';
+	                    		if ($this->zbozi['mez_2'] > 0) {
+	                    			if ((float) $this->zbozi['skladem'] < $this->zbozi['mez_1']) {
+	                    				echo '<strong class="blue">' . vp($_t->_('skladem')) . ' '. ($_t->_('mene nez')) . ' ' . number_format((float) $this->zbozi['mez_1'], 0, ',', ' ') . ' ' . ($_t->_('ks')) . '</strong>' . "\n";
+	                    			} elseif ((float) $this->zbozi['skladem'] > $this->zbozi['mez_2']) {
+	                    				echo '<strong class="blue">' . vp($_t->_('skladem')) . ' '. ($_t->_('vice nez')) . ' ' . number_format((float) $this->zbozi['mez_2'], 0, ',', ' ') . ' ' . ($_t->_('ks')) . '</strong>' . "\n";	                    				
+	                    			} else {
+	                    				echo '<strong class="blue">' . vp($_t->_('skladem')) . ' ' . number_format((float) $this->zbozi['skladem'], 0, ',', ' ') . ' ' . ($_t->_('ks')) . '</strong>' . "\n";	                    				
+	                    			}
+	                    		} else {
+		                  	 		echo '<strong class="blue">' . vp($_t->_('skladem')) . '</strong>' . "\n";
+			                  	 	#echo $this->zbozi['skladem'] . ' ' . $this->zbozi['mez_1'] . ' ' . $this->zbozi['mez_2'];
+	                    		}
+		                  	 	echo '</td>' . "\n";
+	                    	} else {
+	                  	 		echo '<td colspan="2"><strong class="red">' . vp($_t->_('neni skladem')) . '</strong></td>';
+							}
+							?>
+	                    </tr>
+    	                <tr>
+        	            	<th><?= vp($_t->_('zakladni cena'))?>:</th>
+           		 		 	<td colspan="2">
+           		 		 		<?php if (isset($_SESSION['uzivatel']['firma_typ']) && strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo'): ?>
+                	       	    	<span class="big"><?= vp($_t->_('kc'))?> <?= number_format(trim($zakl_cena), 2, ',', ' ');?></span> <?= ($_t->_('bez DPH'))?> <span class="oddelovac">|</span> <?= vp($_t->_('kc'))?> <?= number_format(trim($zakl_cena_s_dph), 2, ',', ' ');?> <?= ($_t->_('vc. DPH'))?>
+                	       	    <?php else:?>
+                	       	    	<span class="big"><?= vp($_t->_('kc'))?> <?= number_format(trim($zakl_cena_s_dph), 2, ',', ' ');?></span> <?= ($_t->_('vc. DPH'))?> <span class="oddelovac">|</span> <?= vp($_t->_('kc'))?> <?= number_format(trim($zakl_cena), 2, ',', ' ');?> <?= ($_t->_('bez DPH'))?>
+                	       	    <?php endif?>
+							</td>
+                    	</tr>
+	                   	<?php if (0 == 1):?>
+                    	<tr>
+                    		<th><?= vp($_t->_('recyklacni poplatek'))?>:</th>
+                	   		<td colspan="2"><?= vp($_t->_('kc'))?> 2,50</td>
+                    	</tr>
+                    	<?php endif?>
+	                   	<?php if ($this->zbozi['sleva'] != 0):?>
+                    	<tr>
+                    		<th><?= vp($_t->_('vase sleva'))?>:</th>
+              	     		<td colspan="2" class="strong red big"><?= number_format($this->zbozi['sleva'], 0, ',', ' ');?> %</td>
+                    	</tr>
+                    	<?php endif?>
+                    	<tr>
+                    		<th><?= vp($_t->_('vysledna cena'))?>:</th>
+                    		<td class="noborderright"><span class="big">
+           		 		 		<?php if (isset($_SESSION['uzivatel']['firma_typ']) && strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo'): ?>
+	                    			<?= vp($_t->_('kc'))?> <?= number_format(trim($cena), 2, ',', ' ');?></span> <?= ($_t->_('bez DPH'))?> <span class="oddelovac">|</span> <?= vp($_t->_('kc'))?> <?= number_format(trim($cena_s_dph), 2, ',', ' ');?> <?= ($_t->_('vc. DPH'))?>
+	                    		<?php else:?>
+	                    			<?= vp($_t->_('kc'))?> <?= number_format(trim($cena_s_dph), 2, ',', ' ');?></span> <?= ($_t->_('vc. DPH'))?> <span class="oddelovac">|</span> <?= vp($_t->_('kc'))?> <?= number_format(trim($cena), 2, ',', ' ');?> <?= ($_t->_('bez DPH'))?>
+	                    		<?php endif?>
+                    		</td>
+                    		<?php
+                    			if ($this->zbozi['nasobky'] != 0 and $this->zbozi['min_mnozstvi'] > 1) {
+                    				$xmnozstvi = $this->zbozi['min_mnozstvi'];
+                    				$nasobek = $this->zbozi['min_mnozstvi'];
+                    			} else {
+                    				$xmnozstvi = 1;
+                    				$nasobek = 1;
+                    			}
+                    		?>
+                        </tr>
+                        <tr>
+                            <th>Nákup</th>
+                        	<td class="noborderleft">
+                                        <div class="small"><label><?= vp($_t->_('pocet'))?>: <input type="text" value="<?=$xmnozstvi?>" name="ks0" id="ks0" class="ks" size="4" /></label> ks</div>
+                                        <input type="hidden" id="produkt0" name="produkt0" value="<?=$this->zbozi['produkt']?>"/>
+                                        <input type="hidden" id="nasobek0" name="nasobek0" value="<?=$nasobek?>"/>
+                                        <?= '<a id="pridej0" class="pridani" href="/obchod/kosik/pridej/kat_id/' . $this->zbozi['produkt'] . '/ks/' . $xmnozstvi . '">';?><span id="koupit0" name="koupit0" class="koupit">koupit</span></a>
+                        	</td>
+                    	</tr>   
+           			</table> 
+                
+                <div class="cistic"></div>
+                
+                <br/><p id="navrat"><a href="<?=$_SESSION['url']['katalog']?>"><?= vp($_t->_('zpet do katalogu'))?></a></p>
+
+                <p id="garance"><?= vp($_t->_('nasli jste nekde lepsi cenu'))?>? <a class="noloadinfo" href="mailto:<?=EMAIL_OBCHODNIK?>"><?= vp($_t->_('sdelte nam to'))?>!</a></p>
+
+            <?php if (count($this->souv) > 0): ?>
+            	<h2><?= vp($_t->_('souvisejici zbozi'))?></h2>
+				<?php //----------------------- zobrazeni seznamu souvisejiciho zbozi
+            	$kat_index = 0;
+            	$row_index = 0;
+            	$j = 0;
+				foreach ($this->souv as $r) {
+					$cena = Round((double) $r['cena'] - ((double) $r['cena'] * ((double) $r['sleva']/100)), 2);
+					$cena_s_dph = Round((double) $cena * (1 + ((double) $r['sdph']/100)), 2);
+	            	if ($kat_index == 0) {//uvodni div
+	            		echo '<div class="cara">';
+	                	echo '<div class="inner">';
+	            	}
+	            	echo '<div class="browse';
+	            	if ($kat_index == 1) {
+	            		echo ' dva';
+	            	}
+	            	echo '">' . "\n";
+	            	echo '<a href="/katalog/detail/ukaz/kc/' . trim($r['produkt']) . '">' . $r['popis'] . '</a>' . "\n";
+	            	echo '<div class="pic">';
+	            	#zjisteni existence nahledu
+	            	if (is_file(CESTA . '/public/' . '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg')) {
+	            		$soubor = '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg';
+	            		$rozmery = '';
+	            	} else if (is_file(CESTA . '/public/' . '/prod_obr/' . trim($r['produkt']) . '.jpg')) {
+	            		$soubor = '/prod_obr/' . trim($r['produkt']) . '.jpg';
+	            		$rozmery = 'width="120" height="120" ';
+	            	} else {
+	            		$soubor = '/grafika/spacer.gif';
+	            		$rozmery = 'width="120" height="120" ';
+	            	}
+	            	echo '<a href="/katalog/detail/ukaz/kc/' . trim($r['produkt']) . '"><img src="' . $soubor . '" ' . $rozmery . 'alt="" title="" /></a>' ."\n";
+					if ($r['akce'] == 1) {//sleva
+						echo '<span class="akce" title="Akce"></span>';
+					} elseif ($r['novinka'] == 1) {//sleva
+						echo '<span class="novinka" title="Novinka"></span>';
+						//echo '<span class="sezona" title="Sezona"></span>';
+					} elseif ($r['doprodej'] == 1) {//sleva
+						echo '<span class="sleva" title="Sleva"></span>';
+					}
+	            	echo '</div>';
+					echo '<div class="cena">' . "\n";
+					if (isset($_SESSION['uzivatel']['firma_typ']) && strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo') {
+						echo '<div class="vetsi"><strong>Kč ' . number_format($cena, 2, ',', ' ') . '</strong></div>' ."\n";
+						echo '<div class="small">Kč ' . number_format($cena_s_dph, 2, ',', ' ') . ' s DPH</div>' . "\n";
+					} else {
+						echo '<div class="vetsi"><strong>Kč ' . number_format($cena_s_dph, 2, ',', ' ') . '</strong></div>' ."\n";
+						echo '<div class="small">Kč ' . number_format($cena, 2, ',', ' ') . ' bez DPH</div>' . "\n";
+					}
+					if ($r['skladem'] <> 0) {
+						echo '<div class="skladem">' . $_t->_('skladem') . '</div>' . "\n";
+					} else {
+						echo '<div class="neni">' . $_t->_('neni skladem') . '</div>' . "\n";
+					}
+                                
+					echo '<form action="">' . "\n";
+					echo '<fieldset>';
+					if ($r['min_mnozstvi'] > 1 and $r['nasobky'] == 0) {//min mnozstvi nehraje roli - 
+						$xmnozstvi = $r['min_mnozstvi'];
+					} else {
+						$xmnozstvi = 1;
+					}
+					echo '<div class="small"><label>Počet: <input id="ks' . $j . '" type="text" value="' . $xmnozstvi . '" name="ks" class="ks" size="4" /></label>';
+					if ($r['nasobky'] == 0) {
+						echo ' ks';
+					} else {
+						echo ' bal';
+					}
+					echo '<input type="hidden" id="produkt' . $j . '" value="' . trim($r['produkt']) . '"/>';
+					echo '</div>';
+					//echo '<input type="image" src="/grafika/koupit.jpg" name="koupit" class="koupit" />';
+					echo '<a id="pridej' . $j . '" class="pridani" href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/mnozstvi/' . $xmnozstvi .'"><img id="obradd' . $j . '" src="/grafika/koupit.jpg" name="koupit" class="koupit" /></a>';
+					echo '</fieldset></form>';
+					echo '</div><!-- cena -->' . "\n";
+					echo '<div class="cistic"></div>';
+					echo '<p>';
+					if ($r['text'] != '') {
+						echo $r['text'] . '<br/>';
+					}
+					echo $_t->_('kat.c') . ': ' . $r['produkt'];
+					if ($r['baleni'] != 1) {
+						echo '<br/>' . $_t->_('pocet ks v baleni') . ': ' . $r['baleni'];
+					}
+					echo '</p>';
+                    echo '</div>';
+					//echo '<td>' . $r['popis'] . '</td>';
+					//echo '<td>' . number_format($r['cena'], 2, '.', ' ') . '</td>';
+					//echo '<td>' . $r['produkt'] . '</td>';
+					//echo '<td><a href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/bal/1/mjvbal/1/cenamj/' . number_format($r['cena'], 2, '_', '') . '">' . vp($_t->_('koupit')) . '</a>';
+					//echo '</tr>';
+					$kat_index++;
+					if ($kat_index >= 3) {
+						echo '</div>' . "\n";
+                    echo '<div class="cistic"></div>';
+                    echo '</div><!-- inner -->';
+                    echo '<div class="cistic"></div>';
+						$kat_index = 0;
+					} else {
+						//
+					}
+					$j++;
+				}
+            	//pokud neco chybi do tri, je potreba to doplnit
+            	if ($kat_index > 0 && $kat_index < 3) {
+            		for($i = $kat_index; $i < 3; $i++) {
+		            	echo '<div class="browse';
+		            	if ($i == 1) {
+		            		echo ' dva';
+		            	}
+		            	echo '">' . "\n";
+		            	echo "&nbsp;\n";
+		            	echo '<div class="pic">';
+		            	echo "&nbsp;\n";
+		            	echo '</div>';
+						echo '<div class="cena">' . "\n";
+						echo '<div class="vetsi">&nbsp;</div>' ."\n";
+						echo '<div class="small">&nbsp;</div>' . "\n";
+						echo '<div class="xskladem">&nbsp;</div>' . "\n";
+	                                
+						echo '<form action="">' . "\n";
+						echo '<fieldset>';
+						echo '<div class="small">&nbsp;</label>';
+						echo '</div>';
+						echo '&nbsp;';
+						echo '</fieldset></form>';
+						echo '</div><!-- cena -->' . "\n";
+						echo '<div class="cistic"></div>';
+						echo '<p>&nbsp;</p>';
+	                    echo '</div>';
+            		}
+					echo '</div>' . "\n";
+                    echo '<div class="cistic"></div>';
+                    echo '</div><!-- inner -->';
+                    echo '<div class="cistic"></div>';
+            	}
+				?>
+            <?php endif /*souvisejici zbozi*/?>
+            
+            <?php if (count($this->alter) > 0): ?>
+            	<h2><?= vp($_t->_('alternativni zbozi'))?></h2>
+				<?php //----------------------- zobrazeni seznamu souvisejiciho zbozi
+            	$kat_index = 0;
+            	$row_index = 0;
+            	$j = 0;
+				foreach ($this->alter as $r) {
+					$cena = Round((double) $r['cena'] - ((double) $r['cena'] * ((double) $r['sleva']/100)), 2);
+					$cena_s_dph = Round((double) $cena * (1 + ((double) $r['sdph']/100)), 2);
+	            	if ($kat_index == 0) {//uvodni div
+	            		echo '<div class="cara">';
+	                	echo '<div class="inner">';
+	            	}
+	            	echo '<div class="browse';
+	            	if ($kat_index == 1) {
+	            		echo ' dva';
+	            	}
+	            	echo '">' . "\n";
+	            	echo '<a href="/katalog/detail/ukaz/kc/' . trim($r['produkt']) . '">' . $r['popis'] . '</a>' . "\n";
+	            	echo '<div class="pic">';
+	            	#zjisteni existence nahledu
+	            	if (is_file(CESTA . '/public/' . '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg')) {
+	            		$soubor = '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg';
+	            		$rozmery = '';
+	            	} else if (is_file(CESTA . '/public/' . '/prod_obr/' . trim($r['produkt']) . '.jpg')) {
+	            		$soubor = '/prod_obr/' . trim($r['produkt']) . '.jpg';
+	            		$rozmery = 'width="120" height="120" ';
+	            	} else {
+	            		$soubor = '/grafika/spacer.gif';
+	            		$rozmery = 'width="120" height="120" ';
+	            	}
+	            	echo '<a href="/katalog/detail/ukaz/kc/' . trim($r['produkt']) . '"><img src="' . $soubor . '" ' . $rozmery . 'alt="" title="" /></a>' ."\n";
+					if ($r['akce'] == 1) {//sleva
+						echo '<span class="akce" title="Akce"></span>';
+					} elseif ($r['novinka'] == 1) {//sleva
+						echo '<span class="novinka" title="Novinka"></span>';
+						//echo '<span class="sezona" title="Sezona"></span>';
+					} elseif ($r['doprodej'] == 1) {//sleva
+						echo '<span class="sleva" title="Sleva"></span>';
+					}
+	            	echo '</div>';
+					echo '<div class="cena">' . "\n";
+					if (isset($_SESSION['uzivatel']['firma_typ']) && strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo') {
+						echo '<div class="vetsi"><strong>Kč ' . number_format($cena, 2, ',', ' ') . '</strong></div>' ."\n";
+						echo '<div class="small">Kč ' . number_format($cena_s_dph, 2, ',', ' ') . ' s DPH</div>' . "\n";
+					} else {
+						echo '<div class="vetsi"><strong>Kč ' . number_format($cena_s_dph, 2, ',', ' ') . '</strong></div>' ."\n";
+						echo '<div class="small">Kč ' . number_format($cena, 2, ',', ' ') . ' bez DPH</div>' . "\n";
+					}
+					if ($r['skladem'] <> 0) {
+						echo '<div class="skladem">' . $_t->_('skladem') . '</div>' . "\n";
+					} else {
+						echo '<div class="neni">' . $_t->_('neni skladem') . '</div>' . "\n";
+					}
+                                
+					echo '<form action="">' . "\n";
+					echo '<fieldset>';
+					if ($r['min_mnozstvi'] > 1 and $r['nasobky'] == 0) {//min mnozstvi nehraje roli - 
+						$xmnozstvi = $r['min_mnozstvi'];
+					} else {
+						$xmnozstvi = 1;
+					}
+					echo '<div class="small"><label>Počet: <input id="ks' . $j . '" type="text" value="' . $xmnozstvi . '" name="ks" class="ks" size="4" /></label>';
+					if ($r['nasobky'] == 0) {
+						echo ' ks';
+					} else {
+						echo ' bal';
+					}
+					echo '<input type="hidden" id="produkt' . $j . '" value="' . trim($r['produkt']) . '"/>';
+					echo '</div>';
+					//echo '<input type="image" src="/grafika/koupit.jpg" name="koupit" class="koupit" />';
+					echo '<a id="pridej' . $j . '" class="pridani" href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/mnozstvi/' . $xmnozstvi .'"><img id="obradd' . $j . '" src="/grafika/koupit.jpg" name="koupit" class="koupit" /></a>';
+					echo '</fieldset></form>';
+					echo '</div><!-- cena -->' . "\n";
+					echo '<div class="cistic"></div>';
+					echo '<p>';
+					if ($r['text'] != '') {
+						echo $r['text'] . '<br/>';
+					}
+					echo $_t->_('kat.c') . ': ' . $r['produkt'];
+					if ($r['baleni'] != 1) {
+						echo '<br/>' . $_t->_('pocet ks v baleni') . ': ' . $r['baleni'];
+					}
+					echo '</p>';
+                    echo '</div>';
+					//echo '<td>' . $r['popis'] . '</td>';
+					//echo '<td>' . number_format($r['cena'], 2, '.', ' ') . '</td>';
+					//echo '<td>' . $r['produkt'] . '</td>';
+					//echo '<td><a href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/bal/1/mjvbal/1/cenamj/' . number_format($r['cena'], 2, '_', '') . '">' . vp($_t->_('koupit')) . '</a>';
+					//echo '</tr>';
+					$kat_index++;
+					if ($kat_index >= 3) {
+						echo '</div>' . "\n";
+                    echo '<div class="cistic"></div>';
+                    echo '</div><!-- inner -->';
+                    echo '<div class="cistic"></div>';
+						$kat_index = 0;
+					} else {
+						//
+					}
+					$j++;
+				}
+            	//pokud neco chybi do tri, je potreba to doplnit
+            	if ($kat_index > 0 && $kat_index < 3) {
+            		for($i = $kat_index; $i < 3; $i++) {
+		            	echo '<div class="browse';
+		            	if ($i == 1) {
+		            		echo ' dva';
+		            	}
+		            	echo '">' . "\n";
+		            	echo "&nbsp;\n";
+		            	echo '<div class="pic">';
+		            	echo "&nbsp;\n";
+		            	echo '</div>';
+						echo '<div class="cena">' . "\n";
+						echo '<div class="vetsi">&nbsp;</div>' ."\n";
+						echo '<div class="small">&nbsp;</div>' . "\n";
+						echo '<div class="xskladem">&nbsp;</div>' . "\n";
+	                                
+						echo '<form action="">' . "\n";
+						echo '<fieldset>';
+						echo '<div class="small">&nbsp;</label>';
+						echo '</div>';
+						echo '&nbsp;';
+						echo '</fieldset></form>';
+						echo '</div><!-- cena -->' . "\n";
+						echo '<div class="cistic"></div>';
+						echo '<p>&nbsp;</p>';
+	                    echo '</div>';
+            		}
+					echo '</div>' . "\n";
+                    echo '<div class="cistic"></div>';
+                    echo '</div><!-- inner -->';
+                    echo '<div class="cistic"></div>';
+            	}
+				?>
+            <?php endif /*alternativni zbozi*/?>
+               
+       		<div class="cistic"></div>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+        
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>

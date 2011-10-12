@@ -1,0 +1,116 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$_SESSION['crumb-text'] = '';
+
+?>
+
+           <div id="stred">
+				<div id="cart">
+            		<span><a href="/obchod/kosik/ukaz"><?php echo vp($_t->_('nakupni kosik'))?></a></span> <h1><span><?php echo vp($_t->_('doprava a platba'))?></span></h1>
+            		 <span><?php echo vp($_t->_('udaje o objednateli'))?></span> <span><?php echo vp($_t->_('shrnuti objednavky'))?></span>
+				</div><!-- cart -->
+
+				<div class="cistic"></div>
+              	<?php if (!isset($_SESSION['uzivatel']['login']) || trim($_SESSION['uzivatel']['login']) == '') :?>
+               		<p><strong class="red"><?php echo vp($_t->_('nejste prihlasen'))?>.</strong>
+                	<?php echo vp($_t->_('pokud jste jiz zaregistrovan'))?>, <strong><?php echo ($_t->_('prihlaste se'))?></strong>
+                	<?php echo vp($_t->_('vpravo nahore pro zobrazeni cen vasi odberatelske skupiny'))?>.</p>
+                <?php endif ?>
+
+				<form id="zpusobdopravy" action="/obchod/kosik/zpracujdopravu" method="POST">
+				<table cellpadding="0" cellspacing="0" class="doprava">
+                    <tr>
+                        <th colspan="2"><?php echo vp($_t->_('zpusob dopravy'));?></th>
+                        <th class="center">Cena</th>
+                    </tr>
+                <?php
+                foreach($this->zp_dopr as $r) {
+                    echo '<tr>';
+                    echo '<td class="radio"><input type="radio" name="doprava" class="doprava" value="' . $r['produkt'] . '"';
+                    if (isset($_SESSION['objednavka']['doprava']) && trim($_SESSION['objednavka']['doprava']['popis']) != '')  {
+	                    if ($r['produkt'] == trim($_SESSION['objednavka']['doprava']['kod'])) {
+	                    	echo ' checked="checked"';
+	                    }
+                    } else {
+	                    if ($r['doprava'] == $this->defa_doprava) {
+	                    	echo ' checked="checked"';
+	                    }
+                    }
+                    echo '/>';
+                    echo '<input type="hidden" name="dopr-' . str_replace(' ', '-', $r['produkt']) . '" id="dopr-' . str_replace(' ', '-', $r['produkt']) . '" value="' . $r['cena'] . '" />';
+                    echo '</td>';
+                    echo '<td>' . $r['popis'] . '</td>';
+                    echo '<td class="hodnota">';
+                    if ($r['cena'] != 0) {
+                    	echo vp($_t->_('kc')) . ' ' . $r['cena'] . ',- ' . $_t->_('bez dph');
+                    } else {
+                    	echo ($_t->_('zdarma'));
+                    }
+                    echo '</td>';
+                    echo '</tr>';
+
+                }
+                ?>
+                    <tr>
+                        <th colspan="3"><?php echo vp($_t->_('zpusob platby'));?></th>
+                    </tr>
+                <?php
+                foreach($this->zp_plat as $r) {
+                	$trida = 'platba';
+                	$pole = isset($this->vazby[$r['produkt']]) ? $this->vazby[$r['produkt']] : array();
+                	foreach($pole as $klic => $jedna) {
+                		$trida .= ' ' . str_replace(' ', '_', $klic);
+                	}
+                    echo '<tr class="' . $trida . '" style="display:none;" id="tr-' . $r['produkt'] . '">';
+                    echo '<td class="radio"><input type="radio" name="platba" class="platba" value="' . $r['produkt'] . '" id="pl-' . $r['produkt'] . '"';
+                    if (isset($_SESSION['objednavka']['platba']) && trim($_SESSION['objednavka']['platba']['popis']) != '')  {
+	                    if ($r['produkt'] == trim($_SESSION['objednavka']['platba']['kod'])) {
+	                    	echo ' checked="checked"';
+	                    }
+                    } else {
+	                    if ($r['platba'] == DEFA_PLATBA) {
+	                    	echo ' checked="checked"';
+	                    }
+                    }
+                    echo '/>';
+                    echo '<input type="hidden" name="plat-' . str_replace(' ', '-', $r['produkt']) . '" id="dopr-' . str_replace(' ', '-', $r['produkt']) . '" value="' . $r['cena'] . '" />';
+                    echo '</td>';
+                    echo '<td>' . $r['popis'] . '</td>';
+                    echo '<td class="hodnota">';
+                    if ($r['cena'] != 0) {
+                    	echo vp($_t->_('kc')) . ' ' . $r['cena'] . ',- ' . $_t->_('bez dph');
+                    } else {
+                    	echo ($_t->_('zdarma'));
+                    }
+                    echo '</td>';
+                    echo '</tr>';
+
+                }
+                ?>
+				</table>
+
+					<a href="/obchod/kosik/ukaz" class="pokracovat"><?php echo vp($_t->_('nakupni kosik'))?></a>
+					<?php if (sizeof($_SESSION['kosik']) > 0 && isset($_SESSION['uzivatel']['login']) && trim($_SESSION['uzivatel']['login']) != ''):?>
+						<a id="dopravapokladna" href="#" class="kpokladne"><?php echo vp($_t->_('k pokladne'))?></a>
+					<?php endif?>
+				</form>
+
+           	<div class="cistic"></div>
+           	<?=$this->txt[$this->kod_txt]?>
+            </div><!-- stred -->
+
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

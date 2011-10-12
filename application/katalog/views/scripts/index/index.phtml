@@ -1,0 +1,254 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+
+$_SESSION['crumb-text'] = '<a href="/katalog/index/index">' . vp($_t->_('uvod_kat')) . '</a>';
+
+
+//nejprve navigace
+$navigace = '';
+foreach($_SESSION['crumb'] as $r) {
+	$navigace .= ' > ' . $r;
+}
+?>        
+           
+            <div id="stred">
+            	<!--<p id="breadcrumb"><?php echo $_SESSION['crumb-text']?></p>-->
+       	        <p id="breadcrumb"><?= getCrumb('Úvod');?></p>
+                <h1><?php
+            		if ($_SESSION['katalog']['akce'] == 1) {
+            			echo vp($_t->_('akcni zbozi'));
+            		} else if ($_SESSION['katalog']['sleva'] == 1) {
+            			echo vp($_t->_('zlevnene zbozi'));
+            		} else if ($_SESSION['katalog']['sezona'] == 1) {
+            			echo vp($_t->_('sezoni zbozi'));
+            		} else if ($_SESSION['katalog']['novy'] == 1) {
+            			echo vp($_t->_('novinky'));
+            		} else if (trim($_SESSION['katalog']['hledani']) != '') {
+            			echo vp($_t->_('vysledek hledani vyrazu')) . ' ' . $_SESSION['katalog']['hledani'];
+            		} else if (isset($_SESSION['katalog']['rozpadla_kategorie'])) {
+            			echo $_SESSION['katalog']['rozpadla_kategorie'];
+            		}
+            	?></h1>
+                
+            	<?php if ($_SESSION['katalog']['navigace_kategorii'] != '') {
+            		echo '<p id="subkategorie">' . substr($_SESSION['katalog']['navigace_kategorii'], 0, -3) . '</p>' . "\n";
+            	}?>
+                <form id="ovladani">
+                	<fieldset>
+                        <label for="radit"><?php echo vp($_t->_('radit dle'))?>:</label> 
+                        <select name="radit" id="radit">
+                            <option value="nazev"<?php if (strtolower($this->radit_dle) == 'nazev') echo ' selected="selected"';?>>názvu</option>
+                            <option value="cena"<?php if (strtolower($this->radit_dle) == 'cena') echo ' selected="selected"';?>>ceny</option>
+                            <option value="kod"<?php if (strtolower($this->radit_dle) == 'kod') echo ' selected="selected"';?>>katalogového čísla</option>
+                        </select>
+                        <input type="image" name="vzestupne" id="vzestupne" src="/grafika/vzestupne.jpg" alt="Vzestupně" title="Vzestupně" />
+                        <input type="image" name="sestupne" id="sestupne" src="/grafika/sestupne.jpg" alt="Sestupně" title="Sestupně" />
+                    	<input type="checkbox" name="jenmfp" id="jenmfp" value="jenmfp" <?php
+                	 		if (isset($_SESSION['katalog']['pars']['jenmfp']) && $_SESSION['katalog']['pars']['jenmfp'] == 1) {
+                	 			echo ' checked="checked"';
+                	 		}
+                    	?>/> <?=($_t->_('pouze vyrobky MFP'))?>
+                    	<input type="checkbox" name="skladem" id="skladem" value="skladem" <?php
+                	 		if (isset($_SESSION['katalog']['pars']['jenskladem']) && $_SESSION['katalog']['pars']['jenskladem'] == 1) {
+                	 			echo ' checked="checked"';
+                	 		}
+                    	?>/> <?=($_t->_('pouze skladem'))?>
+                    </fieldset>
+               </form>
+                
+				<?php //----------------------- zobrazeni samotneho seznamu zbozi
+            	$kat_index = 0;
+            	$row_index = 0;
+            	$j = 0;
+                echo '<table>';
+                echo "<tr>
+                        <th>Obrázek</th>
+                        <th>Název</th>
+                        <th>Cena</th>
+                        <th>s DPH</th>
+                        <th>Stav</th>
+                        <th>Počet</th>
+                        <th>Koupit</th>
+                        <th>Kat.č.</th>
+                        <th>KS v bal.</th>
+                    </tr>";
+		foreach ($this->zbozi as $r) {
+                    echo '<tr>';
+                    $cena = Round((double) $r['cena'] - ((double) $r['cena'] * ((double) $r['sleva']/100)), 2);
+                    $cena_s_dph = Round((double) $cena * (1 + ((double) $r['sdph']/100)), 2);
+	            	echo '<td>';
+	            	if (is_file(CESTA . '/public/' . '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg') && filemtime(CESTA . '/public/' . '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg') > $cas_foto = filemtime(CESTA . '/public/' . '/prod_obr/' . trim($r['produkt']) . '.jpg')) {
+	            		$soubor = '/prod_obr/thumbs/' . trim($r['produkt']) . '_thumb.jpg';
+	            		$rozmery = '';
+	            	} else if (is_file(CESTA . '/public/' . '/prod_obr/' . trim($r['produkt']) . '.jpg')) {
+	            		$soubor = '/prod_obr/' . trim($r['produkt']) . '.jpg';
+            			$rozm = getimagesize(CESTA . '/public/' . '/prod_obr/' . trim($r['produkt']) . '.jpg');
+            			$sirka = $rozm[0];
+            			$vyska = $rozm[1];
+            			if ((integer) $sirka < 120 && (integer) $vyska < 120) {//nebude se upravovat
+            				$width = $sirka;
+            				$height = $vyska;
+            			} else {//je treba upravit
+                			if ((integer) $sirka > (integer) $vyska) {
+                				$width = "120";
+                				$height = number_format((string) round(($vyska/($sirka/120)), 0) , 0, '', ''); 
+                			} else {
+                				$height = "120";
+                				$width = number_format((string) round(($vyska/($vyska/120)), 0) , 0, '', ''); 
+                			}
+            			}
+	            		$rozmery = "width=\"$width\" height=\"$height\" ";
+	            	} else {
+	            		$soubor = '/grafika/spacer.gif';
+	            		$rozmery = 'width="120" height="120" ';
+	            	}
+	            	echo '<a href="' . $this->detail_url . '/kc/' . trim($r['produkt']) . '"><img src="' . $soubor . '" ' . $rozmery . 'alt="" title="" /></a>' ."\n";
+					if ($r['akce'] == 1) {//sleva
+						echo '<span class="akce" title="Akce"></span>';
+					} elseif ($r['novinka'] == 1) {//sleva
+						echo '<span class="novinka" title="Novinka"></span>';
+						//echo '<span class="sezona" title="Sezona"></span>';
+					} elseif ($r['doprodej'] == 1) {//sleva
+						echo '<span class="sleva" title="Sleva"></span>';
+					}
+	            	echo '</td>';
+	            	echo '<td>';
+	            	echo '<a href="' . $this->detail_url . '/kc/' . trim($r['produkt']) . '">' . $r['popis'] . '</a>';
+                        echo '</td>';
+					if (isset($_SESSION['uzivatel']['firma_typ']) && strtolower($_SESSION['uzivatel']['firma_typ']) == 'vo') {
+						echo '<td><div class="vetsi"><strong>' . vp($_t->_('kc')) . ' ' . number_format($cena, 2, ',', ' ') . '</strong></div>' ."</td>";
+						echo '<td><div class="small">' . vp($_t->_('kc')) . ' ' . number_format($cena_s_dph, 2, ',', ' ') . '</div>' . "</td>";
+					} else {
+						echo '<td><div class="small">' . vp($_t->_('kc')) . ' ' . number_format($cena, 2, ',', ' ') . '</div>' ."</td>";
+						echo '<td><div class="vetsi"><strong>' . vp($_t->_('kc')) . ' ' . number_format($cena_s_dph, 2, ',', ' ') . '</strong></div>' . "</td>";
+					}
+                                        echo '<td>';
+					if ($r['skladem'] <> 0) {
+						echo '<div class="skladem">' . $_t->_('skladem') . '</div>' . "\n";
+					} else {
+						echo '<div class="neni">' . $_t->_('neni skladem') . '</div>' . "\n";
+					}
+                                        echo '</td>';
+					echo '<td>';
+					if ($r['min_mnozstvi'] > 1 and $r['nasobky'] == 0) {//min mnozstvi nehraje roli - 
+						$xmnozstvi = $r['min_mnozstvi'];
+					} else {
+						$xmnozstvi = $r['baleni'];
+					}
+					echo '<div class="small"><label>Počet: <input id="ks' . $j . '" type="text" value="' . $xmnozstvi . '" name="ks" class="ks" size="4" /></label>';
+					if ($r['nasobky'] == 0) {
+						echo ' ks';
+					} else {
+						echo ' ks';
+					}
+					echo '<input type="hidden" id="produkt' . $j . '" value="' . trim($r['produkt']) . '"/>';
+					if ($r['nasobky'] == 0) {
+						echo '<input type="hidden" id="nasobek' . $j . '" value="1"/>';
+					} else {
+						echo '<input type="hidden" id="nasobek' . $j . '" value="' . trim($r['baleni']) . '"/>';
+					}
+					echo '</div>';
+                                        echo '</td>';
+					//echo '<input type="image" src="/grafika/koupit.jpg" name="koupit" class="koupit" />';
+                                        echo '<td>';
+					echo '<a id="pridej' . $j . '" class="pridani" href="/obchod/kosik/pridej/kat_id/' . $r['vshop_id'] . '/mnozstvi/' . $xmnozstvi .'"><span id="obradd' . $j . '" name="koupit" class="koupit">koupit</span></a>';
+					echo '</td>';
+					echo '<td>';
+					if (trim($r['text']) != '') {
+						echo $r['text'] . '<br/>';
+					}
+					echo $r['produkt'];
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo $r['baleni'];
+					echo '</td>';
+                    echo '</tr>';
+				}
+                    echo '</table>';
+            	//pokud neco chybi do tri, je potreba to doplnit
+
+				?>
+                
+<?php
+	$pocty_na_stranu = array(12, 24, 48, 96);
+?>
+                
+                <div id="strankovani">
+					<form id="pocetstranka">
+						<label for="howmany">Počet zboží na stránce:</label>
+						<select id="howmany"><?php
+							foreach($pocty_na_stranu as $r) {
+								echo '<option value="' . $r . '"';
+								if ($_SESSION['katalog']['per_page'] == $r) {
+									echo ' selected="selected"';
+								}
+								echo '> ' . $r . '&nbsp;</option>' . "\n";
+							}
+						?>
+						</select>
+					</form>
+                	<div id="stranky">
+                	<?php
+					//echo 'Pocet stran: ' . $this->pager['pocet_stran'] . '</br>';
+					if ($this->pager['prvni'] != '') {
+						echo '<a href="' . $this->pager['prvni'] . '" title="' . $_t->_('prvni'). ' ' . $_t->_('strana') . '">&laquo;&laquo;</a>';
+					} else {
+						echo '&laquo;&laquo;';
+					}
+					echo ' ';
+					if ($this->pager['predchozi'] != '') {
+						echo '<a href="' . $this->pager['predchozi'] . '" title="' . $_t->_('predchozi'). ' ' . $_t->_('strana') . '">&laquo;</a>';
+					} else {
+						echo '&laquo;';
+					}
+					
+					$i = $this->pager['strana'] - 2;
+					if ($i > 1) {
+						echo ' ...';
+					}
+					while ($i <= $this->pager['strana'] + 2) {
+						if ($i >= 1 && $i <= $this->pager['pocet_stran']) {
+							if ($this->pager['strana'] == $i) {
+								echo ' <span class="big">' . $i . '</span>';
+							} else {
+								echo ' <a href="' . $this->pager['url'] . '/strana/' . $i . '" title="' . $i. '. ' . $_t->_('strana') . '">' . $i . '</a>';
+							}
+						}
+						$i++;
+					}
+					if ($i < $this->pager['pocet_stran']) {
+						echo ' ...';
+					}
+					
+					echo ' ';
+					if ($this->pager['nasledujici'] != '') {
+						echo '<a href="' . $this->pager['nasledujici'] . '" title="' . $_t->_('dalsi'). ' ' . $_t->_('strana') . '">&raquo;</a>';
+					} else {
+						echo '&raquo;';
+					}
+					echo ' ';
+					if ($this->pager['posledni'] != '') {
+						echo '<a href="' . $this->pager['posledni'] . '" title="' . $_t->_('posledni'). ' ' . $_t->_('strana') . '">&raquo;&raquo;</a>';
+					} else {
+						echo '&raquo;&raquo;';
+					}
+					?>
+                </div><!-- strankovani -->
+                
+           		<div class="cistic"></div>
+            </div>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+                    
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>

@@ -1,0 +1,45 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+
+            <div id="stred">
+            	<?= $this->txt['uvod_top']?>                
+           	<div class="cistic"></div>
+
+                <h2><?=vp($_t->_('nabizime'))?></h2>
+                
+                <ul id="rozcestnik">
+                <?php
+                	$index = 1;
+                	foreach($this->kategorie as $i => $k) {
+                		#$adr = '/katalog/index/index/u1/' . trim($i) . '/nkat/' . strtolower(cesky(trim($k))) . '/jenskladem/' . $_SESSION['katalog']['pars']['jenskladem'];                		echo '<li id="kat-' . trim($i) .'"';
+                		$adr = '/katalog/index/index/u1/' . trim($i) . '/nkat/' . strtolower(cesky(trim($k))) . '/jenskladem/0/jenmfp/0';
+                		echo '<li id="kat-' . trim($i) .'"';
+                		if ($index >= 3) {
+                			echo ' class="last"';
+                			$index = 0;
+                		}
+						echo '><a href="' . $adr .'">' . trim($k) . '</a></li>';
+                		echo "\n";
+                		$index++;
+                	}
+                ?>
+                </ul>
+                
+                <div class="cistic"></div>
+                
+           	</div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+            
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

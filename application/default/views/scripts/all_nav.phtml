@@ -1,0 +1,45 @@
+<?php
+$strom = zobrazStrom($this->strom, 0, '', '');
+
+if ($_SESSION['katalog']['akce'] == 1) {
+	$akce_text = vp($_t->_('akce'));
+} else {
+	$akce_text = '<a href="/katalog/index/index/u1/0/nkat/vse/akce/1">' . vp($_t->_('akce')) . '</a>';
+}
+if ($_SESSION['katalog']['novy'] == 1) {
+	$novy_text = vp($_t->_('novinky'));
+} else {
+	$novy_text = '<a href="/katalog/index/index/u1/0/nkat/vse/novy/1">' . vp($_t->_('novinky')) . '</a>';
+}
+if ($_SESSION['katalog']['sleva'] == 1) {
+	$sleva_text = vp($_t->_('doprodej'));
+} else {
+	$sleva_text = '<a href="/katalog/index/index/u1/0/nkat/vse/sleva/1">' . vp($_t->_('doprodej')) . '</a>';
+}
+if ($_SESSION['katalog']['sezona'] == 1) {
+	$sezona_text = vp($_t->_('sezona'));
+} else {
+	$sezona_text = '<a href="/katalog/index/index/u1/0/nkat/vse/sezona/1">' . vp($_t->_('sezona')) . '</a>';
+}
+?>
+        
+        <div id="obsah">
+        	<div id="left">
+            	<form action="/katalog/index/index/u1/0/nkat/vse">
+                    <fieldset>
+                        <input id="hledej" name="hledej" type="text" size="20" value="<?=$_t->_('hledat')?> ..." /><span id="go" name="go">Hledej</span>
+                    </fieldset>                
+            	</form>
+                <!--<a href="#" class="small">Rozšířené hledání</a>-->
+                
+                <ul id="special">
+                   	<li id="akce"><?= $akce_text?></li>
+                    <li id="novinky"><?= $novy_text?></li>
+                    <li id="slevy"><?= $sleva_text?></li>
+                    <!--<li id="sezona"><?= $sezona_text?></li>-->
+                </ul>
+                
+                <div id="produkty">Produkty<span></span></div>
+                <?php echo $strom ?>
+            </div><!-- left -->
+<?php

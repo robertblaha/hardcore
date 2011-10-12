@@ -1,0 +1,163 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$_SESSION['crumb-text'] = '';
+?>
+        
+           <div id="stred">
+				<div id="cart">
+            		<span><a href="/obchod/kosik/ukaz"><?= vp($_t->_('nakupni kosik'))?></a></span> <span><a href="/obchod/kosik/doprava"><?= vp($_t->_('doprava a platba'))?></a></span>
+            		 <span><a href="/obchod/kosik/doruceni"><?= vp($_t->_('udaje o objednateli'))?></a></span> <h1><span><?= vp($_t->_('shrnuti objednavky'))?></span></h1>
+				</div><!-- cart -->
+				
+				<div class="cistic"></div>
+              	<?php if (!isset($_SESSION['uzivatel']['login']) || trim($_SESSION['uzivatel']['login']) == '') :?>
+               		<p><strong class="red"><?= vp($_t->_('nejste prihlasen'))?>.</strong>
+                	<?= vp($_t->_('pokud jste jiz zaregistrovan'))?>, <strong><?= ($_t->_('prihlaste se'))?></strong> 
+                	<?= vp($_t->_('vpravo nahore pro zobrazeni cen vasi odberatelske skupiny'))?>.</p>
+                <?php endif ?>
+				
+                <form action="" method="post">
+                
+					<h2 class="mt0"><?= vp($_t->_('objednavane zbozi'))?></h2>
+					<table id="shoppingcart" cellpadding="0" cellspacing="0">
+						<tr>
+							<th class="alignleft"><?= vp($_t->_('nazev zbozi'))?></th>
+							<th><?= vp($_t->_('katalogove cislo'))?></th>
+							<th><?= vp($_t->_('mnozstvi'))?></th>
+							<th><?= vp($_t->_('cena bez dph'))?></th>
+							<th><?= vp($_t->_('cena s dph'))?></th>
+						</tr>
+					<?php
+						$index = 0;
+						$soucet = 0;
+						$soucet_dph = 0;
+						foreach($_SESSION['kosik'] as $r) {
+							if ($index % 2 == 1) {
+								echo '<tr class="odd">';
+							} else {
+								echo '<tr>';
+							}
+							echo '<td class="alignleft">' . $r['nazev'] . '</td>';
+							echo '<td>' . $r['produkt'] . '</td>';
+							echo '<td>' . $r['mj_evid'] . '</td>';
+							echo '<td>' . number_format($r['cena_radek'], 2, ',', ' ') . '</td>';
+							echo '<td>' . number_format($r['cena_radek_dph'], 2, ',', ' ') . '</td>';
+							echo "</tr>";
+							$soucet += $r['cena_radek'];
+							$soucet_dph += $r['cena_radek_dph'];
+							$index++;
+						}
+                                                $sleva_obj = $soucet * (float) $_SESSION['objemova_sleva']/100;
+                                                $sleva_obj_dph = $soucet_dph * (float) $_SESSION['objemova_sleva']/100;
+                                                $cena_obj = $soucet - $sleva_obj;
+                                                $cena_obj_dph = $soucet_dph - $sleva_obj_dph;
+                                                $sleva_kupon = $cena_obj * (float) $_SESSION['objednavka']['kupon']['sleva']/100;
+                                                $sleva_kupon_dph = $cena_obj_dph * (float) $_SESSION['objednavka']['kupon']['sleva']/100;
+                                                $cena_kupon = $cena_obj - $sleva_kupon;
+                                                $cena_kupon_dph = $cena_obj_dph - $sleva_kupon_dph;
+					?>
+                                        <?php if ((float) $_SESSION['objemova_sleva'] != 0): ?>
+						<tr>
+							<td class="mezera" colspan="5"></td>	
+						</tr>
+						<tr class="tmavy">
+							<td class="alignleft strong" colspan="2"><?= vp($_t->_('mnozstevni sleva'))?>:</td>
+							<td><?= number_format($_SESSION['objemova_sleva'], 0, ',', ' ')?>&nbsp;%</td>
+							<td><?= number_format($sleva_obj, 2, ',', ' ')?></td>
+							<td><?= number_format($sleva_obj_dph, 2, ',', ' ')?></td>
+						</tr>
+						<tr>
+							<td class="mezera" colspan="5"></td>	
+						</tr>
+						<tr class="vetsi">
+							<td class="alignleft strong" colspan="3"><?= vp($_t->_('cena po odecteni slevy'))?>:</td>
+							<td><?= number_format($cena_obj, 2, ',', ' ')?></td>
+							<td class="strong darkblue"><?=number_format($cena_obj_dph, 2, ',', ' ')?></td>
+						</tr>
+                                        <?php endif ?>
+                                        <?php if ((float) $_SESSION['objednavka']['kupon']['sleva'] != 0): ?>
+						<tr>
+							<td class="mezera" colspan="5"></td>
+						</tr>
+						<tr class="tmavy">
+							<td class="alignleft strong" colspan="2"><?= vp($_t->_('sleva z kuponu')) . ' ' . $_SESSION['objednavka']['kupon']['cislo']?>:</td>
+							<td><?= number_format((float) $_SESSION['objednavka']['kupon']['sleva'], 0, ',', ' ')?>&nbsp;%</td>
+							<td><?= number_format($sleva_kupon, 2, ',', ' ')?></td>
+							<td><?= number_format($sleva_kupon_dph, 2, ',', ' ')?></td>
+						</tr>
+                                        <?php endif ?>
+						<tr>
+							<td class="mezera" colspan="5"></td>
+						</tr>
+						<tr class="vetsi">
+							<td class="alignleft strong" colspan="3"><?= vp($_t->_('vysledna cena'))?>:</td>
+							<td><?= number_format($cena_kupon, 2, ',', ' ')?></td>
+							<td class="strong darkblue"><?= number_format($cena_kupon_dph, '2', ',', ' ')?></td>
+						</tr>
+					</table>
+					<div class="cistic"></div>
+					
+					<div class="polovina left">
+                	<h2><?= vp($_t->_('fakturacni udaje'))?></h2>	
+                	<div class="ramecek">
+                    	<address>
+                            <?= $_SESSION['objednavka']['osoba']['jmeno']?><br />
+                            <?= $_SESSION['objednavka']['firma']['firma']?><br />
+                            <?= $_SESSION['objednavka']['firma']['ulice']?><br />
+                            <?= $_SESSION['objednavka']['firma']['psc']?>&nbsp;&nbsp;<?= $_SESSION['objednavka']['firma']['mesto']?>
+                        </address>
+                        
+                        <p>
+                        IČ: <?= $_SESSION['objednavka']['firma']['ic']?><br />
+                        DIČ: <?= $_SESSION['objednavka']['firma']['dic']?>
+                        </p><p>
+						(e) <?= $_SESSION['objednavka']['osoba']['email']?><br/>
+						(m) <?= $_SESSION['objednavka']['osoba']['telefon']?>
+                        </p>
+                         <div class="cistic"></div>
+                    </div> <!-- ramecek -->               
+                </div><!-- left -->
+                
+                <div class="polovina right">
+                	<h2><?= vp($_t->_('dodaci adresa'))?></h2>	
+                	<div class="ramecek">
+                    	<address>
+                            <?= $_SESSION['objednavka']['osoba']['jmeno']?><br />
+                            <?= $_SESSION['objednavka']['doruceni']['firma']?><br />
+                            <?= $_SESSION['objednavka']['doruceni']['ulice']?><br />
+                            <?= $_SESSION['objednavka']['doruceni']['psc']?>&nbsp;&nbsp;<?= $_SESSION['objednavka']['doruceni']['mesto']?>
+                        </address>                       
+                    </div> <!-- ramecek -->               
+                </div><!-- right -->
+                
+                <div class="cistic"></div>
+                  <h2><?= vp($_t->_('ostatni udaje'))?></h2>
+                  <p class="mb30">
+                      <span class="polozka"><?= vp($_t->_('doprava'))?>:</span> <strong><?= $_SESSION['objednavka']['doprava']['popis']?></strong>, <?=($_t->_('cena'))?>: <?= number_format($_SESSION['objednavka']['doprava']['cena'], 2, ',', ' ') . ' ' . vp($_t->_('kc'))?><br />
+                      <span class="polozka"><?= vp($_t->_('platba'))?>:</span> <strong><?= $_SESSION['objednavka']['platba']['popis']?></strong>, <?=($_t->_('cena'))?>: <?= number_format($_SESSION['objednavka']['platba']['cena'], 2, ',', ' ') . ' ' . vp($_t->_('kc'))?><br />
+                  	  <span class="polozka"><?= vp($_t->_('poznamky'))?>:</span> <strong><?= $_SESSION['objednavka']['ostatni']['poznamky']?></strong>
+                  </p>                  
+
+                  	<a href="/obchod/kosik/doruceni" class="pokracovat"><?= vp($_t->_('udaje o objednateli'))?></a>
+					<?php if (sizeof($_SESSION['kosik']) > 0 && isset($_SESSION['uzivatel']['login']) && trim($_SESSION['uzivatel']['login']) != ''):?>
+						<a id="dorucenipokladna" href="/obchod/kosik/zpracujobjednavku" class="kpokladne"><?= vp($_t->_('dokoncit'))?></a>
+					<?php endif?>
+                </form>
+                
+           	<div class="cistic"></div>
+           	<?=$this->txt[$this->kod_txt]?>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+

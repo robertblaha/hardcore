@@ -1,0 +1,1 @@
+DD_belatedPNG.fix('ul#jazyky li,#print,#sitemap,.browse .pic span,input.odstranit');

@@ -1,0 +1,19 @@
+<?php
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+header('Content-type: text/xml; charset=utf-8');
+echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+echo '<root>' . "\n";
+
+foreach($this->data->n->row as $r) {
+    echo "<category>\n";
+    echo "<id>" . trim((string) $r->ID_kategorie) . "</id>\n";
+    echo "<parent_id>" . trim((string) $r->Nadrizena_kategorie) . "</parent_id>\n";
+    echo "<name>" . trim((string) $r->Kategorie) . "</name>\n";
+    echo "</category>\n";
+}
+echo '</root>' . "\n";
+
+// dalsi 1/2 hodiny

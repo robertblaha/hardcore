@@ -1,0 +1,148 @@
+<?php include('../application/default/views/scripts/all_header.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_begin.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_menu.phtml'); ?>
+
+<?php include('../application/default/views/scripts/all_nav.phtml'); ?>
+
+<?php
+$_SESSION['crumb-text'] = '';
+?>
+        
+           <div id="stred">
+				<div id="cart">
+            		<h1><span><?php echo vp($_t->_('nakupni kosik'))?></span></h1> <span><?php echo vp($_t->_('doprava a platba'))?></span>
+            		 <span><?php echo vp($_t->_('udaje o objednateli'))?></span> <span><?php echo vp($_t->_('shrnuti objednavky'))?></span>
+				</div><!-- cart -->
+				
+				<div class="cistic"></div>
+              	<?php if (!isset($_SESSION['uzivatel']['login']) || trim($_SESSION['uzivatel']['login']) == '') :?>
+               		<p><strong class="red"><?php echo vp($_t->_('nejste prihlasen'))?>.</strong>
+                	<?php echo vp($_t->_('pokud jste jiz zaregistrovan'))?>, <strong><?php echo ($_t->_('prihlaste se'))?></strong> 
+                	<?php echo vp($_t->_('vpravo nahore pro zobrazeni cen vasi odberatelske skupiny'))?>.</p>
+                <?php endif ?>
+				
+				<form action="">
+					<table id="shoppingcart" cellpadding="0" cellspacing="0">
+						<tr>
+							<th class="alignleft"><?php echo vp($_t->_('nazev zbozi'))?></th>
+							<th><?php echo vp($_t->_('katalogove cislo'))?></th>
+							<th><?php echo vp($_t->_('mnozstvi'))?></th>
+							<th><?php echo vp($_t->_('zakl.cena')) . '<br/>' . vp($_t->_('bez DPH'))?></th>
+							<th><?php echo vp($_t->_('sl.'))?></th>
+							<th><?php echo vp($_t->_('cena bez DPH'))?></th>
+							<th><?php echo vp($_t->_('cena s DPH'))?></th>
+							<th><?php echo vp($_t->_('akce'))?></th>
+						</tr>
+						<tr>
+							<td class="alignleft strong"><?php echo vp($_t->_('pridat zbozi'))?>:</td>
+							<td><input type="text" id="katcislo1" name="katcislo1" class="katcislo" size="10" /></td>
+							<td><input type="text" id="ks1" name="ks1" class="ks" value="1" /> <?php echo ($_t->_('ks'))?></td>
+							<td colspan="4"></td>							
+							<td><img id="pridej1" src="/grafika/add.png" title="<?php echo vp($_t->_('pridat do kosiku'))?>" name="pridat" class="odstranit" /></td>						
+						</tr>
+						<tr>
+							<td class="mezera" colspan="8"></td>	
+						</tr>
+						<?php
+						$cena = 0;
+						$cena_s_dph = 0;
+						foreach ($_SESSION['kosik'] as $k => $r) {
+							echo '<tr>';
+							echo '<td class="alignleft">' . $r['nazev'];
+							if ($r['mj_v_bal'] != 1) {
+								echo ' (' .$r['mj_v_bal'] . $_t->_('ks') . ' ' . $_t->_('v') . ' ' . $_t->_('baleni') . ')';
+							}
+							echo '</td>';
+							echo '<td><span id="kos-katid-' . $k . '">' . $r['produkt'] . '</span></td>';
+							echo '<td><input type="text" name="ks" class="ks" id="kos-bal-' . $k . '" value="' . $r['mnozstvi'] . '" />&nbsp;';
+							if ($r['mj_v_bal'] == 1) {
+								echo $_t->_('ks');
+							} else {
+								#echo $_t->_('bal');
+								echo $_t->_('ks');
+							}
+							echo '</td>';
+							echo '<td>' . number_format($r['zakl_cena'], 2, ',', '') . '<input type="hidden" id="kos-ks-' . $k . '" value="' . $r['mj_evid'] . '"/> ' . '<input type="hidden" id="kos-prepocet-' . $k . '" value="' . $r['mj_v_bal'] . '"/></td>';
+							echo '<td>' . number_format($r['sleva'], 0, ',', ' ') . '%</td>';
+							echo '<td>' . '<span id="kos-cena-' . $k . '">' . number_format($r['cena_radek'], 2, ',', '') . '</span><input type="hidden" id="kos-jcena-' . $k .'" value="' . (double) $r['cena'] . '" /><input type="hidden" id="kos-dph-' . $k . '" value="' . (double) $r['sdph'] . '"/></td>';
+							echo '<td>' . '<span id="kos-cenadph-' . $k . '">' . number_format($r['cena_radek_dph'], 2, ',', '') . '</span></td>';
+							echo '<td>' . '<a href="/obchod/kosik/zrus/pol/' . $k . '"><img src="/grafika/delete.png" title="' . vp($_t->_('odstranit z kosiku')) .'" name="odstranit" class="odstranit" /></a>' . '</td>';
+							echo '</tr>';
+							$cena += (double) $r['cena_radek'];
+							$cena_s_dph += (double) $r['cena_radek_dph'];
+						}
+						?>
+						<!--<tr>
+							<td class="mezera" colspan="8"></td>	
+						</tr>
+						<tr>
+							<td class="alignleft strong"><?php echo vp($_t->_('pridat zbozi'))?>:</td>
+							<td><input type="text" id="katcislo2" name="katcislo2" class="katcislo" size="10" /></td>
+							<td><input type="text" id="ks2" name="ks2" class="ks" value="1" /> <?php echo ($_t->_('ks'))?></td>
+							<td colspan="4"></td>							
+							<td><img id="pridej2" src="/grafika/add.png" title="<?php echo vp($_t->_('pridat do kosiku'))?>" name="pridat" class="odstranit" /></td>						
+						</tr>-->
+						<tr>
+							<td class="mezera" colspan="8"></td>	
+						</tr>
+						<tr>
+							<td class="alignleft strong" colspan="5"><?php echo vp($_t->_('mezisoucet'))?>:</td>
+							<td><span id="kos-cena-mezi"><?php echo number_format($cena, 2, ',', '');?></span></td>
+							<td><span id="kos-cenadph-mezi"><?php echo number_format($cena_s_dph, 2, ',', '');?></span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="mezera" colspan="8"></td>	
+						</tr>
+						<tr class="tmavy">
+							<td class="alignleft strong" colspan="4"><?php echo vp($_t->_('mnozstevni sleva'))?>:</td>
+							<td>
+								<span id="kos-sleva">0</span>&nbsp;%
+								<input type="hidden" id="kos-sleva-proc" name="kos-sleva-proc" value="0" />
+							</td>
+							<td><span id="kos-sleva-cena"><?=number_format('0', 2, ',', ' ')?></span></td>
+							<td><span id="kos-sleva-cenadph"><?=number_format('0', 2, ',', ' ')?></span></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="mezera" colspan="8"></td>	
+						</tr>
+						<tr class="vetsi">
+							<td class="alignleft strong" colspan="5"><?php echo vp($_t->_('celkova cena po odecteni slevy'))?>:</td>
+							<td><?php echo vp($_t->_('kc'))?>&nbsp;<span id="kos-cena-celk"><?php echo number_format($cena, 2, ',', '');?></span></td>
+							<td class="strong darkblue"><?php echo vp($_t->_('kc'))?>&nbsp;<span id="kos-cenadph-celk"><?php echo number_format($cena_s_dph, 2, ',', '');?></span></td>
+							<td></td>
+						</tr>	
+					</table>
+					<input type="hidden" id="zboziok" value="false" />
+					<a href="<?php echo $_SESSION['url']['katalog'];?>" class="pokracovat"><?php echo vp($_t->_('pokracovat v nakupu'))?></a>
+					<?php if (sizeof($_SESSION['kosik']) > 0 && isset($_SESSION['uzivatel']['login']) && trim($_SESSION['uzivatel']['login']) != ''):?>
+						<a href="/obchod/kosik/doprava" class="kpokladne"><?php echo vp($_t->_('k pokladne'))?></a>
+					<?php endif?>
+				</form>
+                
+           	<div class="cistic"></div>
+           	<p>
+           	<?php
+           		if (isset($_SESSION['slevy']) && sizeof($_SESSION['slevy']) > 0) {
+           			echo '<h3>' . vp($_t->_('objemove slevy')) . '</h3>';
+	           		foreach($_SESSION['slevy'] as $r) {
+	           			echo vp($_t->_('pri nakupu nad')) . ' ' . number_format($r['castka'], 0, ',', '.') . ',- ' . vp($_t->_('kc')) . ' ... ' . number_format((real) $r['procento'] * 100, 0, ',', '.') . "%<br/>";
+	           		}
+	           		echo '<br/>';
+           		}
+           	?>
+           	</p>
+           	<?=$this->txt[$this->kod_txt]?>
+            </div><!-- stred -->
+        
+        	<div class="cistic"></div>
+        </div><!-- obsah -->
+        <div class="cistic"></div>
+
+            
+
+<?php include('../application/default/views/scripts/all_footer.phtml'); ?>
+
